@@ -4,7 +4,15 @@
       class="w-full mx-auto my-6 px-4 py-4 bg-gray-100 rounded-lg shadow-lg md:w-9/12 overflow-x-auto">
       <div class="text-xl font-semibold">開始建置你的課表</div>
       <div class="my-2">
-        <div class="flex flex-col py-1 w-40">
+        <div class="flex flex-row py-1 w-40">
+          <select
+            class="mx-1 py-1 rounded-md text-center"
+            v-model="searchSem">
+            <option selected>選擇課表學期</option>
+            <option v-for="item in semList" :key="item" :value="item">
+              {{ item.year }} - {{ item.semester }}
+            </option>
+          </select>
           <select
             class="mx-1 py-1 rounded-md text-center"
             v-model="searchType">
@@ -155,6 +163,7 @@ import {
 import {
   searchDepartmentByOther,
   searchGradeByOther,
+  searchSemster
 } from "@functions/course_search";
 import renderImage from "@functions/image_render.ts";
 import _ from "lodash";
@@ -170,6 +179,17 @@ const setSearchTimeMode = (flag) =>
   store.dispatch("setTimeSearchMode", flag);
 let courseList = computed(() => store.state.course.classListStorage);
 let credit = computed(() => store.state.course.credit);
+
+const searchSem = ref("選擇課表學期");
+
+const semList = ref([]);
+
+watch(searchSem, async (inputValue) => {
+  if (inputValue != "選擇課表學期") {
+    // 這邊要去抓取課表
+    console.log("searchSem", inputValue);
+  }
+});
 
 const toggleActive1 = ref(false);
 const toggleActive2 = ref(false);
@@ -279,6 +299,7 @@ onMounted(async () => {
     console.log("update", temp_list);
     store.dispatch("updateCourseList", temp_list);
   }
+  semList.value = await searchSemster();
 });
 
 watch(searchType, async (inputValue) => {
@@ -332,4 +353,7 @@ var clearTable = function () {
 var download = function () {
   renderImage("WholeTable"); // finish
 };
+
+
+
 </script>

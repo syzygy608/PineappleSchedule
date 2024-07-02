@@ -5,6 +5,24 @@ const env = import.meta.env;
 
 const apiSite = `${env.VITE_BACKEND_DEVICE}/`;
 
+export async function searchSemster() {
+  const apiUrl = apiSite + "semester/all";
+
+  return new Promise((resolve, reject) => {
+    axios
+      .get(apiUrl, {})
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        // 在這裡處理錯誤
+        console.error(error);
+        reject(error);
+      });
+  });
+
+}
+
 export async function searchCourse(Input: string) {
   const apiUrl = apiSite + "searchCourse";
   const keyword = Input.trim();
