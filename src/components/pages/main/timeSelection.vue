@@ -130,6 +130,9 @@ const selectedCoursesearchtime = ref({});
 const out = ref();
 const toggle = ref(0);
 
+const selectedYear = computed(() => store.state.course.selectedYear);
+const selectedSemester = computed(() => store.state.course.selectedSemester);
+
 const filteredClassList = computed(() => {
   if(toggle.value == 0) // 顯示全部課程
     return search_class_list_in_timemode.value;
@@ -171,6 +174,8 @@ watch(searchTimeArgument, async () => {
     searchTimeArgument.value[0],
     searchTimeArgument.value[1],
     searchTimeArgument.value[2],
+    selectedYear.value,
+    selectedSemester.value,
   );
   search_class_list_in_timemode.value = [];
   for (let i = 0; i < data.length; i++) {

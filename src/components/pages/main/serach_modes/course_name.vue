@@ -38,7 +38,6 @@ import {
   GetCourseTable,
 } from "@functions/general";
 import {
-  recordcourse,
   searchCourse,
 } from "@functions/course_search.ts";
 import { splittime } from "@functions/tool.ts";
@@ -54,6 +53,7 @@ import {
   watch,
   reactive,
   computed,
+  watchEffect,
 } from "vue";
 import { useStore } from "vuex";
 import { v4 as uuidv4 } from "uuid";
@@ -75,12 +75,28 @@ let cleanInputArea = function () {
   searchInput.value = "";
 };
 
+const props = defineProps({
+  year: Number,
+  sem: Number,
+})
+
+const selectedYear = ref(props.year);
+const selectedSemester = ref(props.sem);
+
+watchEffect(() => {
+  selectedYear.value = props.year;
+  selectedSemester.value = props.sem;
+  isLoading.value = false;
+  show_search_box.value = false;
+  searchInput.value = "";
+});
+
 watch(searchInput, async (inputValue) => {
   show_search_box.value = true;
   if (inputValue != "") {
     isLoading.value = true;
     show_search_box.value = true;
-    data.value = await searchCourse(inputValue);
+    data.value = await searchCourse(inputValue, selectedYear.value, selectedSemester.value);
     // console.log(data.value);
     data.value = data.value.map((temp) => {
       temp["conflict"] = classconflict(temp);

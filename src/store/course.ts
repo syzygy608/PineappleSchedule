@@ -19,6 +19,8 @@ interface State {
   timeSearchMode: boolean;
   timeSearchArgument: Array<number>;
   runConflict: number;
+  selectedYear: number;
+  selectedSemester: number;
 }
 
 function Transfer(data: any) {
@@ -57,8 +59,14 @@ const store: Module<State, any> = {
     timeSearchMode: false,
     timeSearchArgument: [0, 0, 0],
     runConflict: 0,
+    selectedYear: 113,
+    selectedSemester: 1,
   },
   mutations: {
+    set_yearNsemester(state: State, data: Array<number>) {
+      state.selectedYear = data[0];
+      state.selectedSemester = data[1];
+    },
     display(state: State) {
       state.show = true;
     },
@@ -204,6 +212,9 @@ const store: Module<State, any> = {
     },
   },
   actions: {
+    set_yearNsemester(context: any, data: Array<number>) {
+      context.commit("set_yearNsemester", data);
+    },
     display(context: any) {
       context.commit("display");
     },

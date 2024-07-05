@@ -54,6 +54,7 @@ import {
   watch,
   reactive,
   computed,
+  watchEffect,
 } from "vue";
 import { useStore } from "vuex";
 import { v4 as uuidv4 } from "uuid";
@@ -70,17 +71,34 @@ const show_search_box = ref(false);
 const data = ref([]);
 const searchList = ref(null);
 
+const props = defineProps({
+  year: Number,
+  sem: Number,
+});
+
+const selectedYear = ref(props.year);
+const selectedSem = ref(props.sem);
+
 let cleanInputArea = function () {
   console.log(48763);
   show_search_box.value = !show_search_box.value;
   searchInput.value = "";
 };
+
+watchEffect(() => {
+  selectedYear.value = props.year;
+  selectedSem.value = props.sem;
+  show_search_box.value = false;
+  cleanInputArea();
+});
+
+
 watch(searchInput, async (inputValue) => {
   show_search_box.value = true;
   if (inputValue != "") {
     isLoading.value = true;
     show_search_box.value = true;
-    data.value = await searchByTeacher(inputValue);
+    data.value = await searchByTeacher(inputValue, selectedYear.value, selectedSem.value);
     data.value = data.value.map((temp) => {
       temp["conflict"] = classconflict(temp);
       return temp;

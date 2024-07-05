@@ -7,8 +7,8 @@
         <div class="flex flex-row py-1 w-40">
           <select
             class="mx-1 py-1 rounded-md text-center"
-            v-model="searchSem">
-            <option selected>選擇課表學期</option>
+            v-model="searchSem" v-if = "searchType != '自定義新增課程'">
+            <option disabled>選擇課表學期</option>
             <option v-for="item in semList" :key="item" :value="item">
               {{ item.year }} - {{ item.semester }}
             </option>
@@ -24,10 +24,10 @@
           </select>
         </div>
         <div class="flex flex-col py-1 mx-auto">
-          <CourseName v-if="searchType == '以課程名稱搜尋'" />
-          <Teacher v-if="searchType == '以教師名稱搜尋'" />
-          <Department v-if="searchType == '以系所年級搜尋'" />
-          <Time v-if="searchType == '以時間區間搜尋'" />
+          <CourseName v-if="searchType == '以課程名稱搜尋'" :year="selectedYear" :sem="selectedSem" />
+          <Teacher v-if="searchType == '以教師名稱搜尋'" :year="selectedYear" :sem="selectedSem" />
+          <Department v-if="searchType == '以系所年級搜尋'" :year="selectedYear" :sem="selectedSem" />
+          <Time v-if="searchType == '以時間區間搜尋'" :year="selectedYear" :sem="selectedSem" />
           <Custom v-if="searchType == '自定義新增課程'" />
         </div>
         <hr class="mx-3 my-3 text-slate-300" />
@@ -181,14 +181,15 @@ let courseList = computed(() => store.state.course.classListStorage);
 let credit = computed(() => store.state.course.credit);
 
 const searchSem = ref("選擇課表學期");
-
 const semList = ref([]);
+const selectedYear = ref(null);
+const selectedSem = ref(null);
 
 watch(searchSem, async (inputValue) => {
-  if (inputValue != "選擇課表學期") {
-    // 這邊要去抓取課表
-    console.log("searchSem", inputValue);
-  }
+  selectedYear.value = inputValue.year;
+  selectedSem.value = inputValue.semester;
+  console.log(selectedYear.value, selectedSem.value);
+  store.dispatch("set_yearNsemester", [selectedYear.value, selectedSem.value]);
 });
 
 const toggleActive1 = ref(false);
@@ -245,6 +246,8 @@ let show = computed(() => store.state.course.showTable);
 let opened = computed(() => store.state.course.timeSearchMode);
 
 onMounted(async () => {
+  semList.value = await searchSemster();
+  searchSem.value = semList.value[semList.value.length - 1];
   let temp_list = _.cloneDeep(courseList.value);
   let update = false;
   for (let i = 0; i < temp_list.length; i++) {
@@ -278,6 +281,8 @@ onMounted(async () => {
           obj["Teacher"],
           obj["classroom"],
           obj["Credit"],
+          selectedYear.value,
+          selectedSem.value,
         );
         obj["department"] = result[0].department;
         update = true;
@@ -289,6 +294,8 @@ onMounted(async () => {
           obj["Teacher"],
           obj["classroom"],
           obj["Credit"],
+          selectedYear.value,
+          selectedSem.value,
         );
         obj["grade"] = result[0].grade;
         update = true;
@@ -299,7 +306,6 @@ onMounted(async () => {
     console.log("update", temp_list);
     store.dispatch("updateCourseList", temp_list);
   }
-  semList.value = await searchSemster();
 });
 
 watch(searchType, async (inputValue) => {
