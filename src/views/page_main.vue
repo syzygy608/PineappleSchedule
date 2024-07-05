@@ -27,6 +27,8 @@ watch(status, async (val) => {
 });
 
 import { getVisitCount, visitWeb } from "@functions/web_statistic.ts";
+import Time from "../components/pages/main/serach_modes/time.vue";
+import TimeSelection from "../components/pages/main/timeSelection.vue";
 const visitCount = ref(0);
 onMounted(async () => {
   let succ = await visitWeb("main"); // 訪問網站 目前在後台測試已經成功
@@ -44,6 +46,31 @@ const wid = ref();
 const resizeObserver = new ResizeObserver((entries) => {
   wid.value = entries.slice(-1)[0].target.clientWidth;
 });
+
+const tabs = ref([
+  { component1: ClassTable, component2: TimeSelection } 
+]);
+
+const addTab = () => {
+  if (tabs.value.length >= 10) {
+    alert("最多只能開啟 10 組課表!");
+    return;
+  }
+  tabs.value.push({ component1: ClassTable, component2: TimeSelection });
+};
+
+const removeTab = (index) => {
+  if (tabs.value.length === 1) {
+    alert("至少要保留一組課表!");
+    return;
+  }
+  if (confirm("確定要刪除此課表?") === false) return;
+  tabs.value.splice(index, 1);
+  if (activeIndex.value >= tabs.value.length) activeIndex.value = tabs.value.length - 1;
+};
+
+let activeIndex = ref(0);
+
 </script>
 
 <template>
@@ -59,8 +86,26 @@ const resizeObserver = new ResizeObserver((entries) => {
             ref="left">
             <inputArea />
             <Colorpick v-show="show_colorpick" />
-            <timeSelection :message="wid" />
-            <classTable />
+            <div class="bg-orange-100 rounded-lg px-2 flex py-2 mx-auto md:w-6/12 min-w-[60rem]">
+              <div v-for="(tab, index) in tabs" :key="index" 
+                  @click="activeIndex = index" 
+                  :class="['tab rounded-lg text-center py-2 px-4 mx-1', 
+                            { 'bg-orange-300': activeIndex === index, 'bg-orange-200': activeIndex !== index }]">
+                課表 {{ index + 1 }}
+                <button @click.stop="removeTab(index)" 
+                        v-if = "tabs.length > 1 && activeIndex === index"
+                        class="font-bold hover:text-red-700 inline-flex items-center justify-center">
+                        <CloseOutlined />
+                </button>
+              </div>
+              <button @click="addTab" 
+                      class="tab rounded-lg text-center py-2 px-4 bg-orange-200 hover:bg-orange-300 mx-1">+</button>
+            </div>
+            
+            <div v-if="tabs.length > 0">
+              <component :is="tabs[activeIndex].component1" />
+              <component :is="tabs[activeIndex].component2" />
+            </div>
           </div>
         </pane>
         <pane v-if="status" min-size="30" max-size="50" size="30">

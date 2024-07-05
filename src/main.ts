@@ -18,7 +18,7 @@ for (const i in icons) {
   app.component(i, icons[i]);
 }
 
-app.component(VueCarousel.name, VueCarousel);
+app.component(VueCarousel.name ?? '', VueCarousel);
 app.use(store);
 app.use(router);
 app.use(VueDragSelect);
