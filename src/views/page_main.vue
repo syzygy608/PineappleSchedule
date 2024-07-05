@@ -50,11 +50,40 @@ const resizeObserver = new ResizeObserver((entries) => {
 const tabs = ref([]);
 
 const addTab = () => {
-  if (tabs.value.length >= 4) {
-    alert("最多只能開啟 4 組課表!");
+  if (tabs.value.length >= 8) {
+    alert("最多只能開啟 8 組課表!");
     return;
   }
-  let tab_name = `新課表 ${tabs.value.length + 1}`;
+  // if the user want to copy from other tab (give the index of the tab)
+  if (tabs.value.length === 0) {
+    let tab_name = `課表`;
+    tabs.value.push({
+      name: tab_name,
+      component1: ClassTable,
+      component2: TimeSelection,
+    });
+    return;
+  }
+  let ret = prompt(
+    `新增課表或複製課表?\n輸入 -1 以新增課表，輸入 1 ~ ${tabs.value.length} 以複製課表`,
+    `-1`,
+  );
+  if (ret === null) return;
+  let copy = parseInt(ret);
+  if (copy >= 1 && copy <= tabs.value.length) {
+    let tab_name = tabs.value[copy - 1].name + " (複製)";
+    tabs.value.push({
+      name: tab_name,
+      component1: ClassTable,
+      component2: TimeSelection,
+    });
+    // copy data from copy-th tab here
+    return;
+  } else if (copy != -1) {
+    alert("輸入錯誤!");
+    return;
+  }
+  let tab_name = `新課表 ${tabs.value.length}`;
   tabs.value.push({
     name: tab_name,
     component1: ClassTable,
@@ -99,13 +128,13 @@ let activeIndex = ref(0);
             <inputArea />
             <Colorpick v-show="show_colorpick" />
             <div
-              class="bg-orange-100 rounded-lg px-2 flex py-2 mx-auto md:w-6/12 max-w-[60rem] min-w-[60rem] overflow-auto">
+              class="bg-orange-100 rounded-lg px-2 flex py-2 mx-auto md:w-6/12 max-w-[60rem] min-w-[60rem] overflow-auto flex-nowrap">
               <div
                 v-for="(tab, index) in tabs"
                 :key="index"
                 @click="activeIndex = index"
                 :class="[
-                  'tab rounded-lg text-center py-2 px-4 mx-1 flex',
+                  'tab rounded-lg text-center justify-center py-2 px-4 mx-1 flex max-w-full flex-auto grow-0 min-w-[5rem] w-36',
                   {
                     'bg-orange-300': activeIndex === index,
                     'bg-orange-200': activeIndex !== index,
@@ -114,11 +143,11 @@ let activeIndex = ref(0);
                 <input
                   v-model="tab.name"
                   @blur="renameTab(index, tab.name)"
-                  class="bg-transparent !shadow-none text-center border border-transparent focus:outline-none focus:border-white focus:bg-white/60" />
+                  class="bg-transparent !shadow-none max-w-[90%] text-center border border-transparent focus:outline-none focus:border-white focus:bg-white/60" />
                 <button
                   @click.stop="removeTab(index)"
                   v-if="tabs.length > 1 && activeIndex === index"
-                  class="ml-2 font-bold hover:text-red-700 inline-flex items-center justify-center">
+                  class="ml-2 font-bold hover:text-red-700 inline-flex items-center justify-center z-20">
                   <CloseOutlined />
                 </button>
               </div>
