@@ -92,13 +92,16 @@ watchEffect(() => {
   cleanInputArea();
 });
 
-
 watch(searchInput, async (inputValue) => {
   show_search_box.value = true;
   if (inputValue != "") {
     isLoading.value = true;
     show_search_box.value = true;
-    data.value = await searchByTeacher(inputValue, selectedYear.value, selectedSem.value);
+    data.value = await searchByTeacher(
+      inputValue,
+      selectedYear.value,
+      selectedSem.value,
+    );
     data.value = data.value.map((temp) => {
       temp["conflict"] = classconflict(temp);
       return temp;

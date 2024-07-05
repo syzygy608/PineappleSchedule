@@ -113,7 +113,7 @@ const gradeSelection = ref();
 const props = defineProps({
   year: Number,
   sem: Number,
-})
+});
 
 const selectedYear = ref(props.year);
 const selectedSemester = ref(props.sem);
@@ -122,7 +122,10 @@ watchEffect(async () => {
   selectedYear.value = props.year;
   selectedSemester.value = props.sem;
   departmentInput.value = "";
-  departmentList = await getDepartment(selectedYear.value, selectedSemester.value);
+  departmentList = await getDepartment(
+    selectedYear.value,
+    selectedSemester.value,
+  );
 });
 
 const filteredClassList = computed(() => {
@@ -175,13 +178,21 @@ watch(departmentInput, async (inputValue) => {
 
 async function clickDepartment() {
   gradeList.value = [];
-  getGradeByDepartment(departmentInput.value, selectedYear.value, selectedSemester.value).then((data) => {
+  getGradeByDepartment(
+    departmentInput.value,
+    selectedYear.value,
+    selectedSemester.value,
+  ).then((data) => {
     if (data.length == 1) data = [];
     gradeList.value = data;
     gradeList.value.unshift({ grade: "all" });
     gradeSelection.value = "all";
   });
-  let coursedata = await getCourseByDepartment(departmentInput.value, selectedYear.value, selectedSemester.value);
+  let coursedata = await getCourseByDepartment(
+    departmentInput.value,
+    selectedYear.value,
+    selectedSemester.value,
+  );
   courseList.value = coursedata;
   // department 給 1
   setConflictState(1);
@@ -196,7 +207,10 @@ onMounted(async () => {
     department_search_list.value.style.maxHeight =
       (2 * env.VITE_UL_ROW).toString() + "rem";
   }
-  departmentList = await getDepartment(selectedYear.value, selectedSemester.value);
+  departmentList = await getDepartment(
+    selectedYear.value,
+    selectedSemester.value,
+  );
   setSearchTimeMode(false);
 });
 </script>

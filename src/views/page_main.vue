@@ -47,17 +47,29 @@ const resizeObserver = new ResizeObserver((entries) => {
   wid.value = entries.slice(-1)[0].target.clientWidth;
 });
 
-const tabs = ref([
-  { component1: ClassTable, component2: TimeSelection } 
-]);
+const tabs = ref([]);
 
 const addTab = () => {
-  if (tabs.value.length >= 10) {
-    alert("最多只能開啟 10 組課表!");
+  if (tabs.value.length >= 4) {
+    alert("最多只能開啟 4 組課表!");
     return;
   }
-  tabs.value.push({ component1: ClassTable, component2: TimeSelection });
+  let tab_name = `新課表 ${tabs.value.length + 1}`;
+  tabs.value.push({
+    name: tab_name,
+    component1: ClassTable,
+    component2: TimeSelection,
+  });
 };
+
+addTab();
+
+function renameTab(index, newName) {
+  if (tabs.value[index]) {
+    tabs.value[index].name = newName;
+    console.log(tabs.value[index].name);
+  }
+}
 
 const removeTab = (index) => {
   if (tabs.value.length === 1) {
@@ -66,11 +78,11 @@ const removeTab = (index) => {
   }
   if (confirm("確定要刪除此課表?") === false) return;
   tabs.value.splice(index, 1);
-  if (activeIndex.value >= tabs.value.length) activeIndex.value = tabs.value.length - 1;
+  if (activeIndex.value >= tabs.value.length)
+    activeIndex.value = tabs.value.length - 1;
 };
 
 let activeIndex = ref(0);
-
 </script>
 
 <template>
@@ -86,22 +98,37 @@ let activeIndex = ref(0);
             ref="left">
             <inputArea />
             <Colorpick v-show="show_colorpick" />
-            <div class="bg-orange-100 rounded-lg px-2 flex py-2 mx-auto md:w-6/12 min-w-[60rem]">
-              <div v-for="(tab, index) in tabs" :key="index" 
-                  @click="activeIndex = index" 
-                  :class="['tab rounded-lg text-center py-2 px-4 mx-1', 
-                            { 'bg-orange-300': activeIndex === index, 'bg-orange-200': activeIndex !== index }]">
-                課表 {{ index + 1 }}
-                <button @click.stop="removeTab(index)" 
-                        v-if = "tabs.length > 1 && activeIndex === index"
-                        class="font-bold hover:text-red-700 inline-flex items-center justify-center">
-                        <CloseOutlined />
+            <div
+              class="bg-orange-100 rounded-lg px-2 flex py-2 mx-auto md:w-6/12 max-w-[60rem] min-w-[60rem] overflow-auto">
+              <div
+                v-for="(tab, index) in tabs"
+                :key="index"
+                @click="activeIndex = index"
+                :class="[
+                  'tab rounded-lg text-center py-2 px-4 mx-1 flex',
+                  {
+                    'bg-orange-300': activeIndex === index,
+                    'bg-orange-200': activeIndex !== index,
+                  },
+                ]">
+                <input
+                  v-model="tab.name"
+                  @blur="renameTab(index, tab.name)"
+                  class="bg-transparent !shadow-none text-center border border-transparent focus:outline-none focus:border-white focus:bg-white/60" />
+                <button
+                  @click.stop="removeTab(index)"
+                  v-if="tabs.length > 1 && activeIndex === index"
+                  class="ml-2 font-bold hover:text-red-700 inline-flex items-center justify-center">
+                  <CloseOutlined />
                 </button>
               </div>
-              <button @click="addTab" 
-                      class="tab rounded-lg text-center py-2 px-4 bg-orange-200 hover:bg-orange-300 mx-1">+</button>
+              <button
+                @click="addTab"
+                class="tab rounded-lg text-center py-2 px-4 bg-orange-200 hover:bg-orange-300 mx-1">
+                +
+              </button>
             </div>
-            
+
             <div v-if="tabs.length > 0">
               <component :is="tabs[activeIndex].component1" />
               <component :is="tabs[activeIndex].component2" />

@@ -37,9 +37,7 @@ import {
   InitTable,
   GetCourseTable,
 } from "@functions/general";
-import {
-  searchCourse,
-} from "@functions/course_search.ts";
+import { searchCourse } from "@functions/course_search.ts";
 import { splittime } from "@functions/tool.ts";
 import {
   classconflict,
@@ -78,7 +76,7 @@ let cleanInputArea = function () {
 const props = defineProps({
   year: Number,
   sem: Number,
-})
+});
 
 const selectedYear = ref(props.year);
 const selectedSemester = ref(props.sem);
@@ -96,7 +94,11 @@ watch(searchInput, async (inputValue) => {
   if (inputValue != "") {
     isLoading.value = true;
     show_search_box.value = true;
-    data.value = await searchCourse(inputValue, selectedYear.value, selectedSemester.value);
+    data.value = await searchCourse(
+      inputValue,
+      selectedYear.value,
+      selectedSemester.value,
+    );
     // console.log(data.value);
     data.value = data.value.map((temp) => {
       temp["conflict"] = classconflict(temp);

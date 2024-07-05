@@ -20,10 +20,13 @@ export async function searchSemster() {
         reject(error);
       });
   });
-
 }
 
-export async function searchCourse(Input: string, year: number, semester: number) {
+export async function searchCourse(
+  Input: string,
+  year: number,
+  semester: number,
+) {
   const apiUrl = apiSite + "searchCourse";
   const keyword = Input.trim();
   // const delay = (n:number) => new Promise( r => setTimeout(r, n*1000));
@@ -56,7 +59,11 @@ export async function searchCourse(Input: string, year: number, semester: number
   });
 }
 
-export async function recordcourse(course: object, year: number, semester: number) {
+export async function recordcourse(
+  course: object,
+  year: number,
+  semester: number,
+) {
   const apiUrl = apiSite + "record/userSelectClass";
   //console.log(apiUrl)
 
@@ -81,7 +88,11 @@ export async function recordcourse(course: object, year: number, semester: numbe
   });
 }
 
-export async function searchByTeacher(Input: string, year: number, semester: number) {
+export async function searchByTeacher(
+  Input: string,
+  year: number,
+  semester: number,
+) {
   const apiUrl = apiSite + "searchCourse/ByTeacher";
   const keyword = Input.trim();
   // const delay = (n:number) => new Promise( r => setTimeout(r, n*1000));
@@ -159,7 +170,7 @@ export async function getDepartment(year: number, semester: number) {
       .get(apiUrl, {
         params: {
           year: year,
-          semester: semester
+          semester: semester,
         },
       })
       .then((response) => {
@@ -173,7 +184,11 @@ export async function getDepartment(year: number, semester: number) {
   });
 }
 
-export async function getGradeByDepartment(Department: string, year: number, semester: number) {
+export async function getGradeByDepartment(
+  Department: string,
+  year: number,
+  semester: number,
+) {
   const apiUrl = apiSite + "searchCourse/GetGardeByDepartment";
 
   return new Promise((resolve, reject) => {
@@ -182,7 +197,7 @@ export async function getGradeByDepartment(Department: string, year: number, sem
         params: {
           Department: Department,
           year: year,
-          semester: semester
+          semester: semester,
         },
       })
       .then((response) => {
@@ -196,7 +211,11 @@ export async function getGradeByDepartment(Department: string, year: number, sem
   });
 }
 
-export async function getCourseByDepartment(Department: string, year: number, semester: number) {
+export async function getCourseByDepartment(
+  Department: string,
+  year: number,
+  semester: number,
+) {
   const apiUrl = apiSite + "searchCourse/ByDepartment";
 
   return new Promise((resolve, reject) => {
@@ -205,7 +224,7 @@ export async function getCourseByDepartment(Department: string, year: number, se
         params: {
           Department: Department,
           year: year,
-          semester: semester
+          semester: semester,
         },
       })
       .then((response) => {

@@ -7,7 +7,8 @@
         <div class="flex flex-row py-1 w-40">
           <select
             class="mx-1 py-1 rounded-md text-center"
-            v-model="searchSem" v-if = "searchType != '自定義新增課程'">
+            v-model="searchSem"
+            v-if="searchType != '自定義新增課程'">
             <option disabled>選擇課表學期</option>
             <option v-for="item in semList" :key="item" :value="item">
               {{ item.year }} - {{ item.semester }}
@@ -24,10 +25,22 @@
           </select>
         </div>
         <div class="flex flex-col py-1 mx-auto">
-          <CourseName v-if="searchType == '以課程名稱搜尋'" :year="selectedYear" :sem="selectedSem" />
-          <Teacher v-if="searchType == '以教師名稱搜尋'" :year="selectedYear" :sem="selectedSem" />
-          <Department v-if="searchType == '以系所年級搜尋'" :year="selectedYear" :sem="selectedSem" />
-          <Time v-if="searchType == '以時間區間搜尋'" :year="selectedYear" :sem="selectedSem" />
+          <CourseName
+            v-if="searchType == '以課程名稱搜尋'"
+            :year="selectedYear"
+            :sem="selectedSem" />
+          <Teacher
+            v-if="searchType == '以教師名稱搜尋'"
+            :year="selectedYear"
+            :sem="selectedSem" />
+          <Department
+            v-if="searchType == '以系所年級搜尋'"
+            :year="selectedYear"
+            :sem="selectedSem" />
+          <Time
+            v-if="searchType == '以時間區間搜尋'"
+            :year="selectedYear"
+            :sem="selectedSem" />
           <Custom v-if="searchType == '自定義新增課程'" />
         </div>
         <hr class="mx-3 my-3 text-slate-300" />
@@ -163,7 +176,7 @@ import {
 import {
   searchDepartmentByOther,
   searchGradeByOther,
-  searchSemster
+  searchSemster,
 } from "@functions/course_search";
 import renderImage from "@functions/image_render.ts";
 import _ from "lodash";
@@ -189,7 +202,10 @@ watch(searchSem, async (inputValue) => {
   selectedYear.value = inputValue.year;
   selectedSem.value = inputValue.semester;
   console.log(selectedYear.value, selectedSem.value);
-  store.dispatch("set_yearNsemester", [selectedYear.value, selectedSem.value]);
+  store.dispatch("set_yearNsemester", [
+    selectedYear.value,
+    selectedSem.value,
+  ]);
 });
 
 const toggleActive1 = ref(false);
@@ -359,7 +375,4 @@ var clearTable = function () {
 var download = function () {
   renderImage("WholeTable"); // finish
 };
-
-
-
 </script>
