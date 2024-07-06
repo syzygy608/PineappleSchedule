@@ -5,7 +5,8 @@ import { rowspanize } from "./rowspanizer";
 export async function courseDelete(item: Course) {
   // 比對 uuid 其他不管
   let TotalCourseData = store.state.course.TotalCourseData;
-  let data = TotalCourseData[store.state.course.activeIndex].classStorage;
+  let data =
+    TotalCourseData[store.state.course.activeIndex].classStorage;
   let table: Course[][] = [];
   for (let i = 0; i < data.length; i++) {
     let row: Course[] = [];
