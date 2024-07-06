@@ -359,6 +359,7 @@ const store: Module<State, any> = {
         "TotalCourseData",
         JSON.stringify(state.TotalCourseData),
       );
+      state.activeIndex = 0;
     },
     renameTabs(state: State, data: any) {
       let id = data.id;
