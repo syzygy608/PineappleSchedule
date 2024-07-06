@@ -162,7 +162,11 @@ export function push_to_table(mode: Number, item: any) {
       return false;
     }
   } else if (mode == 2) {
-    recordcourse(item);
+    recordcourse(
+      item,
+      store.state.course.selectedYear,
+      store.state.course.selectedSemester,
+    );
     let time = splittime(item.class_time);
     let data = [];
     let Uuid = uuidv4();
