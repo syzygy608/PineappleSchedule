@@ -75,7 +75,7 @@
         </div>
         <div id="class_list" v-if="class_list_visible === true">
           <p class="text-right py-2 mx-3" v-show="show_credit">
-            目前學分: {{ credit }}
+            目前學分: {{ TotalCourseData[activeIndex].credit }}
           </p>
           <p class="mx-3 my-2">
             Hint:
@@ -190,8 +190,10 @@ const open_credit = () => store.dispatch("show_credit");
 const close_credit = () => store.dispatch("hidden_credit");
 const setSearchTimeMode = (flag) =>
   store.dispatch("setTimeSearchMode", flag);
-let courseList = computed(() => store.state.course.classListStorage);
-let credit = computed(() => store.state.course.credit);
+// let courseList = computed(() => store.state.course.classListStorage);
+// let credit = computed(() => store.state.course.credit);
+let TotalCourseData = computed(() => store.state.course.TotalCourseData);
+let activeIndex = computed(() => store.state.course.activeIndex);
 
 const searchSem = ref("選擇課表學期");
 const semList = ref([]);
@@ -229,7 +231,7 @@ const getDisplayField = (item, optionId) => {
 };
 
 const filteredCourseList = computed(() => {
-  return courseList.value.map((item) => {
+  return TotalCourseData.value[activeIndex.value].classListStorage.map((item) => {
     item["displayField1"] = getDisplayField(
       item,
       showListOptionDefault1.value,
@@ -264,7 +266,9 @@ let opened = computed(() => store.state.course.timeSearchMode);
 onMounted(async () => {
   semList.value = await searchSemster();
   searchSem.value = semList.value[semList.value.length - 1];
-  let temp_list = _.cloneDeep(courseList.value);
+  console.log(TotalCourseData.value[activeIndex.value]);
+  console.log(activeIndex.value);
+  let temp_list = _.cloneDeep(TotalCourseData.value[activeIndex.value].classListStorage);
   let update = false;
   for (let i = 0; i < temp_list.length; i++) {
     let obj = temp_list[i].courseData;
@@ -369,7 +373,7 @@ var clearTable = function () {
   if (confirm("確定要清空課表嗎？")) {
     // 清空課表
     store.dispatch("clearCourse");
-    window.location.reload();
+    // window.location.reload();
   }
 };
 var download = function () {

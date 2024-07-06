@@ -10,6 +10,7 @@
     "hotfix": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify --watch",
     "format": "prettier --ignore-path .gitignore --write \"src/**/*.{js,vue,ts}\""
   },
+  "pre-commit": ["format"],
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
     "@ant-design/icons-vue": "^6.1.0",
@@ -22,7 +23,6 @@
     "ant-design-vue": "^4.0.0",
     "argon2": "^0.31.0",
     "axios": "^1.4.0",
-    "caniuse-lite": "^1.0.30001565",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.2.1",
     "fund": "^1.0.0",
@@ -47,6 +47,7 @@
     "@vitejs/plugin-vue": "^4.1.0",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24",
+    "pre-commit": "^1.2.2",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.2",
     "unplugin-vue-components": "^0.25.1",

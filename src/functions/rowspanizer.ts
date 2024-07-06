@@ -3,7 +3,7 @@ import { Course } from "./general.ts";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 
-export function rowspanize(inputTable: Course[][]): void {
+export function rowspanize(inputTable: Course[][]): Course[][] {
   let table = _.cloneDeep(inputTable);
   let tmpuuid1 = uuidv4(),
     tmpuuid2 = uuidv4();
@@ -43,5 +43,6 @@ export function rowspanize(inputTable: Course[][]): void {
     }
     table[currentIndex][j].setLength(len);
   }
-  store.dispatch("addCourse", table);
+  // store.dispatch("addCourse", table);
+  return table;
 }

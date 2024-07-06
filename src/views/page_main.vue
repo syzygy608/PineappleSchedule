@@ -31,6 +31,7 @@ import Time from "../components/pages/main/serach_modes/time.vue";
 import TimeSelection from "../components/pages/main/timeSelection.vue";
 const visitCount = ref(0);
 onMounted(async () => {
+  // addTab();
   let succ = await visitWeb("main"); // 訪問網站 目前在後台測試已經成功
   visitCount.value = await getVisitCount("main");
   console.log(`visit count: ${visitCount.value}`);
@@ -47,7 +48,7 @@ const resizeObserver = new ResizeObserver((entries) => {
   wid.value = entries.slice(-1)[0].target.clientWidth;
 });
 
-const tabs = ref([]);
+const tabs = computed(() => store.state.course.TotalCourseData);
 
 const addTab = () => {
   if (tabs.value.length >= 8) {
@@ -55,15 +56,6 @@ const addTab = () => {
     return;
   }
   // if the user want to copy from other tab (give the index of the tab)
-  if (tabs.value.length === 0) {
-    let tab_name = `課表`;
-    tabs.value.push({
-      name: tab_name,
-      component1: ClassTable,
-      component2: TimeSelection,
-    });
-    return;
-  }
   let ret = prompt(
     `新增課表或複製課表?\n輸入 -1 以新增課表，輸入 1 ~ ${tabs.value.length} 以複製課表`,
     `-1`,
@@ -71,32 +63,21 @@ const addTab = () => {
   if (ret === null) return;
   let copy = parseInt(ret);
   if (copy >= 1 && copy <= tabs.value.length) {
-    let tab_name = tabs.value[copy - 1].name + " (複製)";
-    tabs.value.push({
-      name: tab_name,
-      component1: ClassTable,
-      component2: TimeSelection,
-    });
+    store.dispatch("addTabs", tabs.value[copy - 1].id);
     // copy data from copy-th tab here
     return;
   } else if (copy != -1) {
     alert("輸入錯誤!");
     return;
   }
-  let tab_name = `新課表 ${tabs.value.length}`;
-  tabs.value.push({
-    name: tab_name,
-    component1: ClassTable,
-    component2: TimeSelection,
-  });
+  store.dispatch("addTabs", null);
 };
 
-addTab();
 
 function renameTab(index, newName) {
+  console.log('rename')
   if (tabs.value[index]) {
-    tabs.value[index].name = newName;
-    console.log(tabs.value[index].name);
+    store.dispatch("renameTabs", { id : tabs.value[index].id, name : newName});
   }
 }
 
@@ -106,12 +87,17 @@ const removeTab = (index) => {
     return;
   }
   if (confirm("確定要刪除此課表?") === false) return;
-  tabs.value.splice(index, 1);
-  if (activeIndex.value >= tabs.value.length)
-    activeIndex.value = tabs.value.length - 1;
+  store.dispatch("deleteTabs", tabs.value[index].id);
 };
 
-let activeIndex = ref(0);
+const activeIndex = computed(
+  () => store.state.course.activeIndex
+);
+
+const setactiveIndex = (index) => {
+  store.dispatch("setactiveIndex", index);
+}
+
 </script>
 
 <template>
@@ -132,7 +118,7 @@ let activeIndex = ref(0);
               <div
                 v-for="(tab, index) in tabs"
                 :key="index"
-                @click="activeIndex = index"
+                @click="setactiveIndex(index)"
                 :class="[
                   'tab rounded-lg text-center justify-center py-2 px-4 mx-1 flex max-w-full flex-auto grow-0 min-w-[5rem] w-36',
                   {
@@ -143,6 +129,7 @@ let activeIndex = ref(0);
                 <input
                   v-model="tab.name"
                   @blur="renameTab(index, tab.name)"
+                  @keyup.enter="$event.target.blur()"
                   class="bg-transparent !shadow-none max-w-[90%] text-center border border-transparent focus:outline-none focus:border-white focus:bg-white/60" />
                 <button
                   @click.stop="removeTab(index)"
@@ -157,11 +144,12 @@ let activeIndex = ref(0);
                 +
               </button>
             </div>
-
-            <div v-if="tabs.length > 0">
+            <timeSelection :message="wid" />
+            <classTable />
+            <!-- <div v-if="tabs.length > 0">
               <component :is="tabs[activeIndex].component1" />
               <component :is="tabs[activeIndex].component2" />
-            </div>
+            </div> -->
           </div>
         </pane>
         <pane v-if="status" min-size="30" max-size="50" size="30">

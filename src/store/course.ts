@@ -1,14 +1,14 @@
 import { Module } from "vuex";
 import { Course, InitTable } from "../functions/general";
 import { rowspanize } from "../functions/rowspanizer";
-
+import { v4 as uuidv4 } from "uuid";
+import _ from "lodash";
+import { toRaw } from "vue";
 const env = import.meta.env;
 
 interface State {
   show: boolean;
-  classStorage: Array<Array<Course>>;
-  classListStorage: Array<Course>;
-  credit: number;
+  TotalCourseData: Array<CourseData>;
   show_ColorPick: boolean;
   chooseCard: Course | null;
   cardMode: number;
@@ -21,6 +21,15 @@ interface State {
   runConflict: number;
   selectedYear: number;
   selectedSemester: number;
+  activeIndex: number;
+}
+
+interface CourseData {
+  name: string;
+  id: string;
+  classStorage: Array<Array<Course>>;
+  classListStorage: Array<Course>;
+  credit: number;
 }
 
 function Transfer(data: any) {
@@ -43,12 +52,44 @@ function Transfer_class_list(data: any) {
   return temp;
 }
 
+// 僅回傳值
+function OldDataTransfer() : Array<CourseData> {
+  console.log("OldDataTransfer");
+  let courseTable: string | null = localStorage.getItem("courseTable");
+  let courseList: string | null = localStorage.getItem("courseList");
+  let creditL: string | null = localStorage.getItem("credit");
+  if(courseTable != null || courseList != null || creditL != null){
+    console.log("not null")
+    localStorage.removeItem("courseTable");
+    localStorage.removeItem("courseList");
+    localStorage.removeItem("credit");
+    let TotalCourseData : Array<CourseData> = [];
+    TotalCourseData.push({
+      name: "課表",
+      id: uuidv4(),
+      classStorage: rowspanize(Transfer(JSON.parse(courseTable!))),
+      classListStorage: Transfer_class_list(JSON.parse(courseList!)),
+      credit: Number(creditL)
+    });
+    return TotalCourseData;
+  }
+  return [
+    {
+      name: "課表",
+      id: uuidv4(),
+      classStorage: rowspanize(InitTable()),
+      classListStorage: [],
+      credit: 0
+    }
+  ];
+}
+
+
+
 const store: Module<State, any> = {
   state: {
     show: false,
-    classStorage: [],
-    classListStorage: [],
-    credit: 0,
+    TotalCourseData:[],
     show_ColorPick: false,
     chooseCard: null,
     cardMode: 0,
@@ -61,6 +102,7 @@ const store: Module<State, any> = {
     runConflict: 0,
     selectedYear: 113,
     selectedSemester: 1,
+    activeIndex: 0
   },
   mutations: {
     set_yearNsemester(state: State, data: Array<number>) {
@@ -79,72 +121,95 @@ const store: Module<State, any> = {
     hidden_credit(state: State) {
       state.show_credit = false;
     },
-    initCourseFromLocalstorage(state: State) {
-      let courseTable: string | null =
-        localStorage.getItem("courseTable");
-      if (courseTable == null || courseTable == "") {
-        state.classStorage = InitTable();
-        rowspanize(state.classStorage);
-        localStorage.setItem(
-          "courseTable",
-          JSON.stringify(state.classStorage),
-        );
+    initAll(state: State) {
+      console.log("initAll");
+      let TotalCourseData = localStorage.getItem("TotalCourseData");
+      // 無資料或者是僅有舊資料
+      console.log(TotalCourseData);
+      if(TotalCourseData === null){
+        console.log("initAll debug");
+        state.TotalCourseData = OldDataTransfer();
+        console.log(state.TotalCourseData);
+        localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
         return;
       }
-      let data = JSON.parse(courseTable!);
-      state.classStorage = Transfer(data);
-      rowspanize(state.classStorage);
+      state.TotalCourseData = JSON.parse(TotalCourseData);
+      for(let i = 0; i < state.TotalCourseData.length; i++){
+        state.TotalCourseData[i].classStorage = rowspanize(Transfer(state.TotalCourseData[i].classStorage));
+        state.TotalCourseData[i].classListStorage = Transfer_class_list(state.TotalCourseData[i].classListStorage);
+      }
     },
+    // initCourseFromLocalstorage(state: State) {
+    //   let courseTable: string | null =
+    //     localStorage.getItem("courseTable");
+    //   if (courseTable == null || courseTable == "") {
+    //     state.classStorage = InitTable();
+    //     rowspanize(state.classStorage);
+    //     localStorage.setItem(
+    //       "courseTable",
+    //       JSON.stringify(state.classStorage),
+    //     );
+    //     return;
+    //   }
+    //   let data = JSON.parse(courseTable!);
+    //   state.classStorage = Transfer(data);
+    //   rowspanize(state.classStorage);
+    // },
     addCourse(state: State, data: Array<Array<Course>>) {
       // console.log(state.classStorage);
-      state.classStorage = data;
+      state.TotalCourseData[state.activeIndex].classStorage = data;
       // console.log(state.classStorage);
-      localStorage.setItem(
-        "courseTable",
-        JSON.stringify(state.classStorage),
-      );
+      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
     },
     clearCourse(state: State) {
       // console.log("clear")
-      state.classStorage = InitTable();
-      rowspanize(state.classStorage);
-      // console.log(state.classStorage)
-      state.classListStorage = [];
-      state.credit = 0;
+      state.TotalCourseData[state.activeIndex].classStorage = rowspanize(InitTable());
+      state.TotalCourseData[state.activeIndex].classListStorage = [];
+      state.TotalCourseData[state.activeIndex].credit = 0;
       state.chooseCard = null;
-      localStorage.setItem(
-        "courseTable",
-        JSON.stringify(state.classStorage),
-      );
-      localStorage.setItem(
-        "courseList",
-        JSON.stringify(state.classListStorage),
-      );
-      localStorage.setItem("credit", state.credit.toString());
+      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+      // state.classStorage = InitTable();
+      // rowspanize(state.classStorage);
+      // console.log(state.classStorage)
+      // state.classListStorage = [];
+      // state.credit = 0;
+      // state.chooseCard = null;
+      // localStorage.setItem(
+      //   "courseTable",
+      //   JSON.stringify(state.classStorage),
+      // );
+      // localStorage.setItem(
+      //   "courseList",
+      //   JSON.stringify(state.classListStorage),
+      // );
+      // localStorage.setItem("credit", state.credit.toString());
     },
-    initCourseListFromLocalstorage(state: State) {
-      let courseList: string | null =
-        localStorage.getItem("courseList");
-      if (courseList == null) {
-        state.classListStorage = [];
-        localStorage.setItem(
-          "courseList",
-          JSON.stringify(state.classListStorage),
-        );
-        return;
-      }
-      let data = JSON.parse(courseList!);
-      state.classListStorage = Transfer_class_list(data);
-    },
+    // initCourseListFromLocalstorage(state: State) {
+    //   let courseList: string | null =
+    //     localStorage.getItem("courseList");
+    //   if (courseList == null) {
+    //     state.classListStorage = [];
+    //     localStorage.setItem(
+    //       "courseList",
+    //       JSON.stringify(state.classListStorage),
+    //     );
+    //     return;
+    //   }
+    //   let data = JSON.parse(courseList!);
+    //   state.classListStorage = Transfer_class_list(data);
+    // },
     addCourseList(state: State, Class: Course) {
-      state.classListStorage.push(Class);
-      localStorage.setItem(
-        "courseList",
-        JSON.stringify(state.classListStorage),
-      );
+      state.TotalCourseData[state.activeIndex].classListStorage.push(Class);
+      // state.classListStorage.push(Class);
+      // localStorage.setItem(
+      //   "courseList",
+      //   JSON.stringify(state.classListStorage),
+      // );
+      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
     },
     deleteCourseList(state: State, Class: Course) {
-      let List = state.classListStorage;
+      // let List = state.classListStorage;
+      let List = state.TotalCourseData[state.activeIndex].classListStorage;
       let temp: Array<Course> = [];
       for (let i = 0; i < List.length; i++) {
         if (List[i].getUuid() == Class.getUuid()) {
@@ -153,25 +218,29 @@ const store: Module<State, any> = {
           temp.push(List[i]);
         }
       }
-      state.classListStorage = temp;
-      localStorage.setItem(
-        "courseList",
-        JSON.stringify(state.classListStorage),
-      );
+      // state.classListStorage = temp;
+      state.TotalCourseData[state.activeIndex].classListStorage = temp;
+      // localStorage.setItem(
+      //   "courseList",
+      //   JSON.stringify(state.classListStorage),
+      // );
+      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
     },
-    initCredit(state: State) {
-      let creditL: string | null = localStorage.getItem("credit");
-      if (creditL == null) {
-        state.credit = 0;
-        localStorage.setItem("credit", state.credit.toString());
-        return;
-      }
-      state.credit = Number(creditL);
-    },
+    // initCredit(state: State) {
+    //   let creditL: string | null = localStorage.getItem("credit");
+    //   if (creditL == null) {
+    //     state.credit = 0;
+    //     localStorage.setItem("credit", state.credit.toString());
+    //     return;
+    //   }
+    //   state.credit = Number(creditL);
+    // },
     addCredit(state: State, delta: number) {
-      state.credit += delta;
+      // state.credit += delta;
+      state.TotalCourseData[state.activeIndex].credit += delta;
       // console.log(state.credit, delta)
-      localStorage.setItem("credit", state.credit.toString());
+      // localStorage.setItem("credit", state.credit.toString());
+      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
     },
     changeShowColorPick(state: State, Bool: boolean) {
       state.show_ColorPick = Bool;
@@ -204,12 +273,63 @@ const store: Module<State, any> = {
       state.runConflict = arg;
     },
     updateCourseList(state: State, data: Array<Course>) {
-      state.classListStorage = data;
-      localStorage.setItem(
-        "courseList",
-        JSON.stringify(state.classListStorage),
-      );
+      // state.classListStorage = data;
+      // localStorage.setItem(
+      //   "courseList",
+      //   JSON.stringify(state.classListStorage),
+      // );
+      state.TotalCourseData[state.activeIndex].classListStorage = data;
+      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
     },
+    setactiveIndex(state: State, index: number) {
+      state.activeIndex = index;
+    },
+    addTabs(state: State, id: string | null) {
+      if(id == null){
+        state.TotalCourseData.push({
+          name: `課表${state.TotalCourseData.length + 1}`,
+          id: uuidv4(),
+          classStorage: rowspanize(InitTable()),
+          classListStorage: [],
+          credit: 0
+        });
+        state.activeIndex = state.TotalCourseData.length - 1;
+      }else{
+        console.log(state.TotalCourseData);
+        let length = state.TotalCourseData.length;
+        for(let i = 0; i < length; i++){
+          if(state.TotalCourseData[i].id == id){
+            state.TotalCourseData.push(_.cloneDeep(toRaw(state.TotalCourseData[i])));
+            state.activeIndex = state.TotalCourseData.length - 1;
+            state.TotalCourseData[state.activeIndex].id = uuidv4(); 
+            state.TotalCourseData[state.activeIndex].name = state.TotalCourseData[state.activeIndex].name + " copy";
+            break;
+          }
+        }
+        console.log(state.TotalCourseData);
+      }
+      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+    },
+    deleteTabs(state: State, id: string) {
+      let temp: Array<CourseData> = [];
+      for(let i = 0; i < state.TotalCourseData.length; i++){
+        if(state.TotalCourseData[i].id != id){
+          temp.push(state.TotalCourseData[i]);
+        }
+      }
+      state.TotalCourseData = temp;
+      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+    },
+    renameTabs(state: State, data: any) {
+      let id = data.id;
+      let name = data.name;
+      for(let i = 0; i < state.TotalCourseData.length; i++){
+        if(state.TotalCourseData[i].id == id){
+          state.TotalCourseData[i].name = name;
+        }
+      }
+      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+    }
   },
   actions: {
     set_yearNsemester(context: any, data: Array<number>) {
@@ -246,9 +366,10 @@ const store: Module<State, any> = {
       context.commit("initCredit");
     },
     initAll(context: any) {
-      context.commit("initCredit");
-      context.commit("initCourseListFromLocalstorage");
-      context.commit("initCourseFromLocalstorage");
+      context.commit("initAll");
+      // context.commit("initCredit");
+      // context.commit("initCourseListFromLocalstorage");
+      // context.commit("initCourseFromLocalstorage");
     },
     addCredit(context: any, delta: number) {
       context.commit("addCredit", delta);
@@ -295,6 +416,18 @@ const store: Module<State, any> = {
     updateCourseList(context: any, data: any) {
       context.commit("updateCourseList", data);
     },
+    setactiveIndex(context: any, index: number) {
+      context.commit("setactiveIndex", index);
+    },
+    addTabs(context: any, id: string | null) {
+      context.commit("addTabs", id);
+    },
+    deleteTabs(context: any, id: string) {
+      context.commit("deleteTabs", id);
+    },
+    renameTabs(context: any, data: any) {
+      context.commit("renameTabs", data);
+    }
   },
 };
 

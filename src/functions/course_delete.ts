@@ -58,7 +58,8 @@ export async function courseDelete(item: Course) {
   }
   // 不要在這邊儲存localstorage，使用store
   await store.dispatch("deleteCourseList", item);
-  rowspanize(table);
+  table = rowspanize(table);
+  store.dispatch("addCourse", table);
   return true;
 }
 
