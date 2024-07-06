@@ -29,14 +29,9 @@ watch(status, async (val) => {
 import { getVisitCount, visitWeb } from "@functions/web_statistic.ts";
 import Time from "../components/pages/main/serach_modes/time.vue";
 import TimeSelection from "../components/pages/main/timeSelection.vue";
+import { set } from "lodash";
 const visitCount = ref(0);
-onMounted(async () => {
-  // addTab();
-  let succ = await visitWeb("main"); // 訪問網站 目前在後台測試已經成功
-  visitCount.value = await getVisitCount("main");
-  console.log(`visit count: ${visitCount.value}`);
-  resizeObserver.observe(left.value);
-});
+const tabIsEditing = ref([]);
 
 onUnmounted(() => {
   document.body.style.overflow = "auto";
@@ -50,31 +45,66 @@ const resizeObserver = new ResizeObserver((entries) => {
 
 const tabs = computed(() => store.state.course.TotalCourseData);
 
+const oldName = ref("");
+const ret = ref("0");
+
+onMounted(async () => {
+  let succ = await visitWeb("main"); // 訪問網站 目前在後台測試已經成功
+  visitCount.value = await getVisitCount("main");
+  console.log(`visit count: ${visitCount.value}`);
+  resizeObserver.observe(left.value);
+  tabIsEditing.value = Array(tabs.value.length).fill(false);
+});
+
+const showModal = ref(false);
+
 const addTab = () => {
   if (tabs.value.length >= 8) {
     alert("最多只能開啟 8 組課表!");
     return;
   }
-  // if the user want to copy from other tab (give the index of the tab)
-  let ret = prompt(
-    `新增課表或複製課表?\n輸入 -1 以新增課表，輸入 1 ~ ${tabs.value.length} 以複製課表`,
-    `-1`,
-  );
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+  ret.value = "0";
+};
+
+const SubmitModal = () => {
   if (ret === null) return;
-  let copy = parseInt(ret);
+  let copy = parseInt(ret.value);
   if (copy >= 1 && copy <= tabs.value.length) {
     store.dispatch("addTabs", tabs.value[copy - 1].id);
     // copy data from copy-th tab here
+    closeModal();
     return;
-  } else if (copy != -1) {
+  } else if (copy != 0) {
     alert("輸入錯誤!");
     return;
   }
   store.dispatch("addTabs", null);
+  closeModal();
+};
+
+const activateInputFocus = (index) => {
+  oldName.value = tabs.value[index].name;
+  tabIsEditing.value[index] = true;
+  setTimeout(() => {
+    let div = document.getElementsByClassName("tab")[index];
+    let input = div.querySelector("input");
+    input.select();
+    input.focus();
+  }, 10);
 };
 
 function renameTab(index, newName) {
   console.log("rename");
+  if (newName === "") {
+    tabs.value[index].name = oldName.value;
+    alert("名稱不可為空!");
+    return;
+  }
   if (tabs.value[index]) {
     store.dispatch("renameTabs", {
       id: tabs.value[index].id,
@@ -118,6 +148,7 @@ const setactiveIndex = (index) => {
                 v-for="(tab, index) in tabs"
                 :key="index"
                 @click="setactiveIndex(index)"
+                @dblclick="activateInputFocus(index)"
                 :class="[
                   'tab rounded-lg text-center justify-center py-2 px-4 mx-1 flex max-w-full flex-auto grow-0 min-w-[5rem] w-36',
                   {
@@ -125,11 +156,20 @@ const setactiveIndex = (index) => {
                     'bg-orange-200': activeIndex !== index,
                   },
                 ]">
+                <div
+                  class="w-[8rem] text-center"
+                  v-if="!tabIsEditing[index]">
+                  {{ tab.name }}
+                </div>
                 <input
+                  v-else
                   v-model="tab.name"
-                  @blur="renameTab(index, tab.name)"
+                  @blur="
+                    renameTab(index, tab.name);
+                    tabIsEditing[index] = false;
+                  "
                   @keyup.enter="$event.target.blur()"
-                  class="bg-transparent !shadow-none max-w-[90%] text-center border border-transparent focus:outline-none focus:border-white focus:bg-white/60" />
+                  class="bg-transparent !shadow-none w-[8rem] max-w-[90%] text-center border border-transparent focus:outline-none focus:border-white focus:bg-white/60" />
                 <button
                   @click.stop="removeTab(index)"
                   v-if="tabs.length > 1 && activeIndex === index"
@@ -156,6 +196,51 @@ const setactiveIndex = (index) => {
         </pane>
       </splitpanes>
       <Foot />
+    </div>
+  </div>
+  <div
+    class="z-40 top-0 left-0 w-screen h-screen fixed flex items-center backdrop-blur-sm"
+    v-show="showModal">
+    <div
+      id="modal-container"
+      class="fixed inset-0 flex justify-center h-full md:h-6/12 w-full md:w-7/12 mx-auto"
+      v-show="showModal">
+      <div class="bg-white p-8 rounded-3xl shadow-lg my-auto">
+        <h2 class="text-xl font-semibold mb-4 text-center">
+          新增課表
+        </h2>
+        <hr class="py-2" />
+        <p class="mb-4">
+          請問你是要新增一個空白課表還是複製一個現有的課表?
+        </p>
+        <div class="mb-4">
+          <select
+            v-model="ret"
+            class="w-full bg-gray-100 py-2 rounded-lg text-center">
+            <option value="0" selected>新增空白課表</option>
+            <option
+              v-for="(tab, index) in tabs"
+              :key="index"
+              :value="index + 1">
+              複製 {{ tab.name }}
+            </option>
+          </select>
+        </div>
+        <div class="text-center">
+          <button
+            id="close-modal"
+            class="bg-red-300 px-3 py-1 rounded hover:bg-red-400"
+            @click="closeModal">
+            取消
+          </button>
+          <button
+            id="add-tab"
+            class="bg-green-300 px-3 py-1 rounded hover:bg-green-400 ml-2"
+            @click="SubmitModal">
+            確認
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
