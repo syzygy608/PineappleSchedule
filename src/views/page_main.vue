@@ -73,11 +73,13 @@ const addTab = () => {
   store.dispatch("addTabs", null);
 };
 
-
 function renameTab(index, newName) {
-  console.log('rename')
+  console.log("rename");
   if (tabs.value[index]) {
-    store.dispatch("renameTabs", { id : tabs.value[index].id, name : newName});
+    store.dispatch("renameTabs", {
+      id: tabs.value[index].id,
+      name: newName,
+    });
   }
 }
 
@@ -90,14 +92,11 @@ const removeTab = (index) => {
   store.dispatch("deleteTabs", tabs.value[index].id);
 };
 
-const activeIndex = computed(
-  () => store.state.course.activeIndex
-);
+const activeIndex = computed(() => store.state.course.activeIndex);
 
 const setactiveIndex = (index) => {
   store.dispatch("setactiveIndex", index);
-}
-
+};
 </script>
 
 <template>

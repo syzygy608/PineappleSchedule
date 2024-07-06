@@ -192,7 +192,9 @@ const setSearchTimeMode = (flag) =>
   store.dispatch("setTimeSearchMode", flag);
 // let courseList = computed(() => store.state.course.classListStorage);
 // let credit = computed(() => store.state.course.credit);
-let TotalCourseData = computed(() => store.state.course.TotalCourseData);
+let TotalCourseData = computed(
+  () => store.state.course.TotalCourseData,
+);
 let activeIndex = computed(() => store.state.course.activeIndex);
 
 const searchSem = ref("選擇課表學期");
@@ -231,7 +233,9 @@ const getDisplayField = (item, optionId) => {
 };
 
 const filteredCourseList = computed(() => {
-  return TotalCourseData.value[activeIndex.value].classListStorage.map((item) => {
+  return TotalCourseData.value[
+    activeIndex.value
+  ].classListStorage.map((item) => {
     item["displayField1"] = getDisplayField(
       item,
       showListOptionDefault1.value,
@@ -268,7 +272,9 @@ onMounted(async () => {
   searchSem.value = semList.value[semList.value.length - 1];
   console.log(TotalCourseData.value[activeIndex.value]);
   console.log(activeIndex.value);
-  let temp_list = _.cloneDeep(TotalCourseData.value[activeIndex.value].classListStorage);
+  let temp_list = _.cloneDeep(
+    TotalCourseData.value[activeIndex.value].classListStorage,
+  );
   let update = false;
   for (let i = 0; i < temp_list.length; i++) {
     let obj = temp_list[i].courseData;

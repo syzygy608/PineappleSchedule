@@ -19,7 +19,9 @@ const env = import.meta.env;
 // and return the status of the operation
 
 export function classconflict(course: any) {
-  let table: Course[][] = store.state.course.TotalCourseData[store.state.course.activeIndex].classStorage;
+  let table: Course[][] =
+    store.state.course.TotalCourseData[store.state.course.activeIndex]
+      .classStorage;
   let time = splittime(course.class_time);
   for (let i = 0; i < time.length; i++) {
     let weekDayIndex = WeekDayToInt[time[i][0]]; // 2 is the offset of the first two columns
@@ -53,7 +55,9 @@ function courseAdd(
   // return the status of the operation
   let activeIndex = store.state.course.activeIndex;
   let TotalCourseData = store.state.course.TotalCourseData;
-  let table = _.cloneDeep(toRaw(TotalCourseData[activeIndex].classStorage));
+  let table = _.cloneDeep(
+    toRaw(TotalCourseData[activeIndex].classStorage),
+  );
   let Uuid = uuidv4();
   let course = new Course({
     start_time: courseToTime[start],
@@ -104,7 +108,9 @@ function searchAdd(course_list: Course[]) {
   // console.log(course_list);
   let activeIndex = store.state.course.activeIndex;
   let TotalCourseData = store.state.course.TotalCourseData;
-  let table = _.cloneDeep(toRaw(TotalCourseData[activeIndex].classStorage));
+  let table = _.cloneDeep(
+    toRaw(TotalCourseData[activeIndex].classStorage),
+  );
   // put the list of courses into the table
   for (let i = 0; i < course_list.length; i++) {
     let course = course_list[i];

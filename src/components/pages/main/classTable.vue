@@ -121,7 +121,10 @@
               </tr>
             </thead>
             <tbody v-if="show">
-              <tr v-for="row in TotalCourseData[activeIndex].classStorage" :key="row.id">
+              <tr
+                v-for="row in TotalCourseData[activeIndex]
+                  .classStorage"
+                :key="row.id">
                 <courseCard
                   v-for="item in row"
                   :key="item.id"
@@ -179,7 +182,9 @@ const close_credit = () => store.dispatch("hidden_credit");
 // let course_data = computed(() => store.state.course.classStorage);
 // let courseList = computed(() => store.state.course.classListStorage);
 // let credit = computed(() => store.state.course.credit);
-let TotalCourseData = computed(() => store.state.course.TotalCourseData);
+let TotalCourseData = computed(
+  () => store.state.course.TotalCourseData,
+);
 let activeIndex = computed(() => store.state.course.activeIndex);
 
 const hidden = () => {

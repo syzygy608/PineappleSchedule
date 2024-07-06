@@ -53,23 +53,24 @@ function Transfer_class_list(data: any) {
 }
 
 // 僅回傳值
-function OldDataTransfer() : Array<CourseData> {
+function OldDataTransfer(): Array<CourseData> {
   console.log("OldDataTransfer");
-  let courseTable: string | null = localStorage.getItem("courseTable");
+  let courseTable: string | null =
+    localStorage.getItem("courseTable");
   let courseList: string | null = localStorage.getItem("courseList");
   let creditL: string | null = localStorage.getItem("credit");
-  if(courseTable != null || courseList != null || creditL != null){
-    console.log("not null")
+  if (courseTable != null || courseList != null || creditL != null) {
+    console.log("not null");
     localStorage.removeItem("courseTable");
     localStorage.removeItem("courseList");
     localStorage.removeItem("credit");
-    let TotalCourseData : Array<CourseData> = [];
+    let TotalCourseData: Array<CourseData> = [];
     TotalCourseData.push({
       name: "課表",
       id: uuidv4(),
       classStorage: rowspanize(Transfer(JSON.parse(courseTable!))),
       classListStorage: Transfer_class_list(JSON.parse(courseList!)),
-      credit: Number(creditL)
+      credit: Number(creditL),
     });
     return TotalCourseData;
   }
@@ -79,17 +80,15 @@ function OldDataTransfer() : Array<CourseData> {
       id: uuidv4(),
       classStorage: rowspanize(InitTable()),
       classListStorage: [],
-      credit: 0
-    }
+      credit: 0,
+    },
   ];
 }
-
-
 
 const store: Module<State, any> = {
   state: {
     show: false,
-    TotalCourseData:[],
+    TotalCourseData: [],
     show_ColorPick: false,
     chooseCard: null,
     cardMode: 0,
@@ -102,7 +101,7 @@ const store: Module<State, any> = {
     runConflict: 0,
     selectedYear: 113,
     selectedSemester: 1,
-    activeIndex: 0
+    activeIndex: 0,
   },
   mutations: {
     set_yearNsemester(state: State, data: Array<number>) {
@@ -126,17 +125,25 @@ const store: Module<State, any> = {
       let TotalCourseData = localStorage.getItem("TotalCourseData");
       // 無資料或者是僅有舊資料
       console.log(TotalCourseData);
-      if(TotalCourseData === null){
+      if (TotalCourseData === null) {
         console.log("initAll debug");
         state.TotalCourseData = OldDataTransfer();
         console.log(state.TotalCourseData);
-        localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+        localStorage.setItem(
+          "TotalCourseData",
+          JSON.stringify(state.TotalCourseData),
+        );
         return;
       }
       state.TotalCourseData = JSON.parse(TotalCourseData);
-      for(let i = 0; i < state.TotalCourseData.length; i++){
-        state.TotalCourseData[i].classStorage = rowspanize(Transfer(state.TotalCourseData[i].classStorage));
-        state.TotalCourseData[i].classListStorage = Transfer_class_list(state.TotalCourseData[i].classListStorage);
+      for (let i = 0; i < state.TotalCourseData.length; i++) {
+        state.TotalCourseData[i].classStorage = rowspanize(
+          Transfer(state.TotalCourseData[i].classStorage),
+        );
+        state.TotalCourseData[i].classListStorage =
+          Transfer_class_list(
+            state.TotalCourseData[i].classListStorage,
+          );
       }
     },
     // initCourseFromLocalstorage(state: State) {
@@ -159,15 +166,22 @@ const store: Module<State, any> = {
       // console.log(state.classStorage);
       state.TotalCourseData[state.activeIndex].classStorage = data;
       // console.log(state.classStorage);
-      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
     },
     clearCourse(state: State) {
       // console.log("clear")
-      state.TotalCourseData[state.activeIndex].classStorage = rowspanize(InitTable());
+      state.TotalCourseData[state.activeIndex].classStorage =
+        rowspanize(InitTable());
       state.TotalCourseData[state.activeIndex].classListStorage = [];
       state.TotalCourseData[state.activeIndex].credit = 0;
       state.chooseCard = null;
-      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
       // state.classStorage = InitTable();
       // rowspanize(state.classStorage);
       // console.log(state.classStorage)
@@ -199,17 +213,23 @@ const store: Module<State, any> = {
     //   state.classListStorage = Transfer_class_list(data);
     // },
     addCourseList(state: State, Class: Course) {
-      state.TotalCourseData[state.activeIndex].classListStorage.push(Class);
+      state.TotalCourseData[state.activeIndex].classListStorage.push(
+        Class,
+      );
       // state.classListStorage.push(Class);
       // localStorage.setItem(
       //   "courseList",
       //   JSON.stringify(state.classListStorage),
       // );
-      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
     },
     deleteCourseList(state: State, Class: Course) {
       // let List = state.classListStorage;
-      let List = state.TotalCourseData[state.activeIndex].classListStorage;
+      let List =
+        state.TotalCourseData[state.activeIndex].classListStorage;
       let temp: Array<Course> = [];
       for (let i = 0; i < List.length; i++) {
         if (List[i].getUuid() == Class.getUuid()) {
@@ -219,12 +239,16 @@ const store: Module<State, any> = {
         }
       }
       // state.classListStorage = temp;
-      state.TotalCourseData[state.activeIndex].classListStorage = temp;
+      state.TotalCourseData[state.activeIndex].classListStorage =
+        temp;
       // localStorage.setItem(
       //   "courseList",
       //   JSON.stringify(state.classListStorage),
       // );
-      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
     },
     // initCredit(state: State) {
     //   let creditL: string | null = localStorage.getItem("credit");
@@ -240,7 +264,10 @@ const store: Module<State, any> = {
       state.TotalCourseData[state.activeIndex].credit += delta;
       // console.log(state.credit, delta)
       // localStorage.setItem("credit", state.credit.toString());
-      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
     },
     changeShowColorPick(state: State, Bool: boolean) {
       state.show_ColorPick = Bool;
@@ -278,58 +305,74 @@ const store: Module<State, any> = {
       //   "courseList",
       //   JSON.stringify(state.classListStorage),
       // );
-      state.TotalCourseData[state.activeIndex].classListStorage = data;
-      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+      state.TotalCourseData[state.activeIndex].classListStorage =
+        data;
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
     },
     setactiveIndex(state: State, index: number) {
       state.activeIndex = index;
     },
     addTabs(state: State, id: string | null) {
-      if(id == null){
+      if (id == null) {
         state.TotalCourseData.push({
           name: `課表${state.TotalCourseData.length + 1}`,
           id: uuidv4(),
           classStorage: rowspanize(InitTable()),
           classListStorage: [],
-          credit: 0
+          credit: 0,
         });
         state.activeIndex = state.TotalCourseData.length - 1;
-      }else{
+      } else {
         console.log(state.TotalCourseData);
         let length = state.TotalCourseData.length;
-        for(let i = 0; i < length; i++){
-          if(state.TotalCourseData[i].id == id){
-            state.TotalCourseData.push(_.cloneDeep(toRaw(state.TotalCourseData[i])));
+        for (let i = 0; i < length; i++) {
+          if (state.TotalCourseData[i].id == id) {
+            state.TotalCourseData.push(
+              _.cloneDeep(toRaw(state.TotalCourseData[i])),
+            );
             state.activeIndex = state.TotalCourseData.length - 1;
-            state.TotalCourseData[state.activeIndex].id = uuidv4(); 
-            state.TotalCourseData[state.activeIndex].name = state.TotalCourseData[state.activeIndex].name + " copy";
+            state.TotalCourseData[state.activeIndex].id = uuidv4();
+            state.TotalCourseData[state.activeIndex].name =
+              state.TotalCourseData[state.activeIndex].name + " copy";
             break;
           }
         }
         console.log(state.TotalCourseData);
       }
-      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
     },
     deleteTabs(state: State, id: string) {
       let temp: Array<CourseData> = [];
-      for(let i = 0; i < state.TotalCourseData.length; i++){
-        if(state.TotalCourseData[i].id != id){
+      for (let i = 0; i < state.TotalCourseData.length; i++) {
+        if (state.TotalCourseData[i].id != id) {
           temp.push(state.TotalCourseData[i]);
         }
       }
       state.TotalCourseData = temp;
-      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
     },
     renameTabs(state: State, data: any) {
       let id = data.id;
       let name = data.name;
-      for(let i = 0; i < state.TotalCourseData.length; i++){
-        if(state.TotalCourseData[i].id == id){
+      for (let i = 0; i < state.TotalCourseData.length; i++) {
+        if (state.TotalCourseData[i].id == id) {
           state.TotalCourseData[i].name = name;
         }
       }
-      localStorage.setItem("TotalCourseData", JSON.stringify(state.TotalCourseData));
-    }
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
+    },
   },
   actions: {
     set_yearNsemester(context: any, data: Array<number>) {
@@ -427,7 +470,7 @@ const store: Module<State, any> = {
     },
     renameTabs(context: any, data: any) {
       context.commit("renameTabs", data);
-    }
+    },
   },
 };
 
