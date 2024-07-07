@@ -72,7 +72,7 @@ const closeModal = () => {
 };
 
 const show_tab_name = (tab_name) => {
-  if(tab_name.length > 8) return tab_name.slice(0, 6) + "...";
+  if (tab_name.length > 8) return tab_name.slice(0, 6) + "...";
   return tab_name;
 };
 
