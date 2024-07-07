@@ -71,6 +71,11 @@ const closeModal = () => {
   ret.value = "0";
 };
 
+const show_tab_name = (tab_name) => {
+  if(tab_name.length > 8) return tab_name.slice(0, 6) + "...";
+  return tab_name;
+};
+
 const SubmitModal = () => {
   if (ret === null) return;
   let copy = parseInt(ret.value);
@@ -159,7 +164,7 @@ const setactiveIndex = (index) => {
                 <div
                   class="w-[8rem] text-center"
                   v-if="!tabIsEditing[index]">
-                  {{ tab.name }}
+                  {{ show_tab_name(tab.name) }}
                 </div>
                 <input
                   v-else
