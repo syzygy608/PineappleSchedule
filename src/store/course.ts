@@ -347,6 +347,21 @@ const store: Module<State, any> = {
         JSON.stringify(state.TotalCourseData),
       );
     },
+    importTabs(state: State, data: any) {
+      console.log(data);
+      state.TotalCourseData.push({
+        name: data.name,
+        id: uuidv4(),
+        classStorage: rowspanize(Transfer(data.classStorage)),
+        classListStorage: Transfer_class_list(data.classListStorage),
+        credit: data.credit
+      });
+      state.activeIndex = state.TotalCourseData.length - 1;
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
+    },
     deleteTabs(state: State, id: string) {
       let temp: Array<CourseData> = [];
       for (let i = 0; i < state.TotalCourseData.length; i++) {
@@ -465,6 +480,9 @@ const store: Module<State, any> = {
     },
     addTabs(context: any, id: string | null) {
       context.commit("addTabs", id);
+    },
+    importTabs(context: any, data: any) {
+      context.commit("importTabs", data);
     },
     deleteTabs(context: any, id: string) {
       context.commit("deleteTabs", id);

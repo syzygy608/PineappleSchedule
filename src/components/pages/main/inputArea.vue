@@ -53,7 +53,7 @@
             清空課表
             <DeleteOutlined />
           </button>
-          <button class="btn-normal w-[8rem]" v-on:click="">
+          <button class="btn-normal w-[8rem]" v-on:click="shareTable">
             分享課表
             <ExportOutlined />
           </button>
@@ -141,6 +141,7 @@ import Teacher from "@components/pages/main/serach_modes/teacher.vue";
 import Time from "@components/pages/main/serach_modes/time.vue";
 import Custom from "@components/pages/main/serach_modes/custom.vue";
 import Department from "@components/pages/main/serach_modes/department.vue";
+import { recordsharecourse } from "@functions/save_course";
 
 import {
   CaretDownOutlined,
@@ -377,6 +378,17 @@ var clearTable = function () {
     // window.location.reload();
   }
 };
+
+const shareTable = async function () {
+  console.log(TotalCourseData.value[activeIndex.value]);
+  let result = await recordsharecourse(
+    TotalCourseData.value[activeIndex.value],
+  );
+  await navigator.clipboard.writeText(result);
+  alert("已複製分享連結到剪貼簿");
+  console.log(result);
+};
+
 var download = function () {
   renderImage("WholeTable"); // finish
 };

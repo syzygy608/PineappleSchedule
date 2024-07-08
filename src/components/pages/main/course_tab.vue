@@ -41,9 +41,22 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import store from "@/store";
 import { CloseOutlined } from "@ant-design/icons-vue";
+import { useRoute } from 'vue-router';
+import { getsharecourse } from "@functions/save_course"
+
+onMounted(async() => {
+  const route = useRoute();
+  const recordId = route.query.record_id;
+  if (!recordId) return;
+  let result = await getsharecourse(recordId);
+  const data = result.json_data;
+  console.log(data);
+  store.dispatch("importTabs", data);
+  window.location.href = "/#/main";
+});
 
 const tabs = computed(() => store.state.course.TotalCourseData);
 store.dispatch("init_tab_is_editing", tabs.value.length);
@@ -77,6 +90,7 @@ const activateInputFocus = (index) => {
     input.focus();
   }, 10);
 };
+
 
 function renameTab(index, newName) {
   console.log("rename");
