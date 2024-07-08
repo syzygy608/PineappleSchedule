@@ -44,10 +44,10 @@
 import { computed, ref, onMounted } from "vue";
 import store from "@/store";
 import { CloseOutlined } from "@ant-design/icons-vue";
-import { useRoute } from 'vue-router';
-import { getsharecourse } from "@functions/save_course"
+import { useRoute } from "vue-router";
+import { getsharecourse } from "@functions/save_course";
 
-onMounted(async() => {
+onMounted(async () => {
   const route = useRoute();
   const recordId = route.query.record_id;
   if (!recordId) return;
@@ -90,7 +90,6 @@ const activateInputFocus = (index) => {
     input.focus();
   }, 10);
 };
-
 
 function renameTab(index, newName) {
   console.log("rename");

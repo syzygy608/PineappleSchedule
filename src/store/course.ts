@@ -354,7 +354,7 @@ const store: Module<State, any> = {
         id: uuidv4(),
         classStorage: rowspanize(Transfer(data.classStorage)),
         classListStorage: Transfer_class_list(data.classListStorage),
-        credit: data.credit
+        credit: data.credit,
       });
       state.activeIndex = state.TotalCourseData.length - 1;
       localStorage.setItem(
