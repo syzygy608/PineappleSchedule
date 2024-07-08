@@ -45,20 +45,21 @@
             </div>
             <span class="mx-3 py-1 min-w-[4rem]"> 顯示學分 </span>
           </div>
-          <button
-            class="btn-normal min-w-[8rem]"
-            v-on:click="show_list">
-            展開課程列表
+          <button class="btn-normal w-[8rem]" v-on:click="show_list">
+            課程列表
+            <CaretDownOutlined />
           </button>
-          <button
-            class="btn-normal min-w-[4rem]"
-            v-on:click="clearTable">
+          <button class="btn-normal w-[8rem]" v-on:click="clearTable">
             清空課表
+            <DeleteOutlined />
           </button>
-          <button
-            class="btn-normal min-w-[8rem]"
-            v-on:click="download">
+          <button class="btn-normal w-[8rem]" v-on:click="">
+            分享課表
+            <ExportOutlined />
+          </button>
+          <button class="btn-normal w-[8rem]" v-on:click="download">
             下載課表
+            <DownloadOutlined />
           </button>
         </div>
         <div id="class_list" v-if="class_list_visible === true">
@@ -140,6 +141,13 @@ import Teacher from "@components/pages/main/serach_modes/teacher.vue";
 import Time from "@components/pages/main/serach_modes/time.vue";
 import Custom from "@components/pages/main/serach_modes/custom.vue";
 import Department from "@components/pages/main/serach_modes/department.vue";
+
+import {
+  CaretDownOutlined,
+  DeleteOutlined,
+  ExportOutlined,
+  DownloadOutlined,
+} from "@ant-design/icons-vue";
 
 import {
   onMounted,
