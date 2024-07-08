@@ -110,22 +110,19 @@ const gradeList = ref();
 const courseList = ref([]);
 const gradeSelection = ref();
 
-const props = defineProps({
-  year: Number,
-  sem: Number,
-});
+const selectedYear = computed(() => store.state.course.selectedYear);
+const selectedSemester = computed(
+  () => store.state.course.selectedSemester,
+);
 
-const selectedYear = ref(props.year);
-const selectedSemester = ref(props.sem);
-
-watchEffect(async () => {
-  selectedYear.value = props.year;
-  selectedSemester.value = props.sem;
-  departmentInput.value = "";
-  departmentList = await getDepartment(
-    selectedYear.value,
-    selectedSemester.value,
-  );
+watch([selectedYear, selectedSemester], async ([year, semester]) => {
+  if (departmentInput.value != "") {
+    departmentInput.value = "";
+    departmentList = await getDepartment(
+      selectedYear.value,
+      selectedSemester.value,
+    );
+  }
 });
 
 const filteredClassList = computed(() => {

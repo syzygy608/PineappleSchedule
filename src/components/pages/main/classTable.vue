@@ -291,8 +291,8 @@ async function showsearchclass(event) {
 
 onMounted(() => {
   store.dispatch("initAll");
-  console.log(activeIndex.value);
-  console.log(TotalCourseData.value[activeIndex.value].classStorage);
+  // console.log(activeIndex.value);
+  // console.log(TotalCourseData.value[activeIndex.value].classStorage);
   // using env to control <ul> display
   let ul = document.getElementById("result");
   if (ul != null) {

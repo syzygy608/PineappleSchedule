@@ -25,22 +25,10 @@
           </select>
         </div>
         <div class="flex flex-col py-1 mx-auto">
-          <CourseName
-            v-if="searchType == '以課程名稱搜尋'"
-            :year="selectedYear"
-            :sem="selectedSem" />
-          <Teacher
-            v-if="searchType == '以教師名稱搜尋'"
-            :year="selectedYear"
-            :sem="selectedSem" />
-          <Department
-            v-if="searchType == '以系所年級搜尋'"
-            :year="selectedYear"
-            :sem="selectedSem" />
-          <Time
-            v-if="searchType == '以時間區間搜尋'"
-            :year="selectedYear"
-            :sem="selectedSem" />
+          <CourseName v-if="searchType == '以課程名稱搜尋'" />
+          <Teacher v-if="searchType == '以教師名稱搜尋'" />
+          <Department v-if="searchType == '以系所年級搜尋'" />
+          <Time v-if="searchType == '以時間區間搜尋'" />
           <Custom v-if="searchType == '自定義新增課程'" />
         </div>
         <hr class="mx-3 my-3 text-slate-300" />
@@ -205,7 +193,6 @@ const selectedSem = ref(null);
 watch(searchSem, async (inputValue) => {
   selectedYear.value = inputValue.year;
   selectedSem.value = inputValue.semester;
-  console.log(selectedYear.value, selectedSem.value);
   store.dispatch("set_yearNsemester", [
     selectedYear.value,
     selectedSem.value,
@@ -270,8 +257,8 @@ let opened = computed(() => store.state.course.timeSearchMode);
 onMounted(async () => {
   semList.value = await searchSemster();
   searchSem.value = semList.value[semList.value.length - 1];
-  console.log(TotalCourseData.value[activeIndex.value]);
-  console.log(activeIndex.value);
+  // console.log(TotalCourseData.value[activeIndex.value]);
+  // console.log(activeIndex.value);
   let temp_list = _.cloneDeep(
     TotalCourseData.value[activeIndex.value].classListStorage,
   );

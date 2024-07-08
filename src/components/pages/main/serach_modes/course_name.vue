@@ -73,20 +73,17 @@ let cleanInputArea = function () {
   searchInput.value = "";
 };
 
-const props = defineProps({
-  year: Number,
-  sem: Number,
-});
+const selectedYear = computed(() => store.state.course.selectedYear);
+const selectedSemester = computed(
+  () => store.state.course.selectedSemester,
+);
 
-const selectedYear = ref(props.year);
-const selectedSemester = ref(props.sem);
-
-watchEffect(() => {
-  selectedYear.value = props.year;
-  selectedSemester.value = props.sem;
-  isLoading.value = false;
-  show_search_box.value = false;
-  searchInput.value = "";
+watch([selectedYear, selectedSemester], async ([year, semester]) => {
+  if (searchInput.value != "") {
+    show_search_box.value = false;
+    isLoading.value = true;
+    searchInput.value = "";
+  }
 });
 
 watch(searchInput, async (inputValue) => {

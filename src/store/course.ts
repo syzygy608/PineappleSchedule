@@ -124,7 +124,7 @@ const store: Module<State, any> = {
       console.log("initAll");
       let TotalCourseData = localStorage.getItem("TotalCourseData");
       // 無資料或者是僅有舊資料
-      console.log(TotalCourseData);
+      // console.log(TotalCourseData);
       if (TotalCourseData === null) {
         console.log("initAll debug");
         state.TotalCourseData = OldDataTransfer();
@@ -340,7 +340,7 @@ const store: Module<State, any> = {
             break;
           }
         }
-        console.log(state.TotalCourseData);
+        // console.log(state.TotalCourseData);
       }
       localStorage.setItem(
         "TotalCourseData",

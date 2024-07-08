@@ -71,25 +71,23 @@ const show_search_box = ref(false);
 const data = ref([]);
 const searchList = ref(null);
 
-const props = defineProps({
-  year: Number,
-  sem: Number,
-});
-
-const selectedYear = ref(props.year);
-const selectedSem = ref(props.sem);
-
 let cleanInputArea = function () {
   console.log(48763);
   show_search_box.value = !show_search_box.value;
   searchInput.value = "";
 };
 
-watchEffect(() => {
-  selectedYear.value = props.year;
-  selectedSem.value = props.sem;
-  show_search_box.value = false;
-  cleanInputArea();
+const selectedYear = computed(() => store.state.course.selectedYear);
+const selectedSemester = computed(
+  () => store.state.course.selectedSemester,
+);
+
+watch([selectedYear, selectedSemester], async ([year, semester]) => {
+  if (searchInput.value != "") {
+    show_search_box.value = false;
+    isLoading.value = true;
+    searchInput.value = "";
+  }
 });
 
 watch(searchInput, async (inputValue) => {
@@ -100,7 +98,7 @@ watch(searchInput, async (inputValue) => {
     data.value = await searchByTeacher(
       inputValue,
       selectedYear.value,
-      selectedSem.value,
+      selectedSemester.value,
     );
     data.value = data.value.map((temp) => {
       temp["conflict"] = classconflict(temp);
