@@ -51,6 +51,11 @@ onMounted(async () => {
   const route = useRoute();
   const recordId = route.query.record_id;
   if (!recordId) return;
+  // 回傳分享的課表的編號
+  if (tabs.value.length >= 8) {
+    alert("最多只能開啟 8 組課表!");
+    return;
+  }
   let result = await getsharecourse(recordId);
   const data = result.json_data;
   console.log(data);
