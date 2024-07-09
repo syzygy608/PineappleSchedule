@@ -53,7 +53,7 @@
             清空課表
             <DeleteOutlined />
           </button>
-          <button class="btn-normal w-[8rem]" v-on:click="shareTable">
+          <button class="btn-normal w-[8rem]" v-on:click="shareTable" id = "share">
             分享課表
             <ExportOutlined />
           </button>
@@ -132,6 +132,8 @@
     <div
       class="w-full md:w-9/12 mx-auto py-3"
       v-if="searchType == '以時間區間搜尋'"></div>
+  </div>
+  <div class = "flex fixed top-0 left-0 w-screen h-screen z-10" v-show="waiting">
   </div>
 </template>
 
@@ -379,13 +381,19 @@ var clearTable = function () {
   }
 };
 
+const waiting = ref(false);
+
 const shareTable = async function () {
+  document.body.style.cursor = "wait";
+  waiting.value = true;
   console.log(TotalCourseData.value[activeIndex.value]);
   let result = await recordsharecourse(
     TotalCourseData.value[activeIndex.value],
   );
   await navigator.clipboard.writeText(result);
   alert("已複製分享連結到剪貼簿");
+  document.body.style.cursor = "default";
+  waiting.value = false;
   console.log(result);
 };
 

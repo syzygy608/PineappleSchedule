@@ -22,6 +22,7 @@ declare module 'vue' {
     InputArea: typeof import('./src/components/pages/main/inputArea.vue')['default']
     Intro: typeof import('./src/components/pages/home/intro.vue')['default']
     KebabButton: typeof import('./src/components/common/optionButton/kebabButton.vue')['default']
+    Loading_page: typeof import('./src/components/common/loading_page.vue')['default']
     LoadingSpinner: typeof import('./src/components/common/loadingSpinner.vue')['default']
     Loginarea: typeof import('./src/components/pages/login/loginarea.vue')['default']
     Modal: typeof import('./src/components/pages/main/modal.vue')['default']
