@@ -34,6 +34,11 @@ const routes = [
     name: "Tutorial",
     component: () => import("../views/page_tutorial.vue"),
   },
+  {
+    path: "/record/error",
+    name: "RecordError",
+    component: () => import("../views/page_record_error.vue"),
+  },
 ];
 
 const router = createRouter({

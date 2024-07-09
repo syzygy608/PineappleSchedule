@@ -5,7 +5,7 @@ const router = useRouter();
 
 <template>
   <div
-    class="z-10 bg-orange-200 px-3 py-3 flex md:flex-row flex-row-reverse items-center place-content-between select-none">
+    class="z-10 h-[4rem] bg-orange-200 px-3 py-3 flex md:flex-row flex-row-reverse items-center place-content-between select-none">
     <router-link to="/">
       <div
         class="font-bold text-2xl bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">

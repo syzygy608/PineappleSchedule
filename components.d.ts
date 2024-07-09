@@ -17,6 +17,7 @@ declare module 'vue' {
     CourseCard: typeof import('./src/components/pages/main/courseCard.vue')['default']
     Custom: typeof import('./src/components/pages/main/serach_modes/custom.vue')['default']
     Department: typeof import('./src/components/pages/main/serach_modes/department.vue')['default']
+    Error_box: typeof import('./src/components/common/error_box.vue')['default']
     Footer: typeof import('./src/components/layout/footer.vue')['default']
     InputArea: typeof import('./src/components/pages/main/inputArea.vue')['default']
     Intro: typeof import('./src/components/pages/home/intro.vue')['default']
