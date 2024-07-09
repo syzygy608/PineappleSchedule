@@ -11,7 +11,7 @@ import ErrorBox from "@components/common/error_box.vue";
       style="height: calc(100vh - 8rem)"
       class="flex items-center justify-center">
       <ErrorBox
-        error="本分享連結已過期，請聯絡擁有者重新產生。"></ErrorBox>
+        error="分享連結錯誤或者已過期"></ErrorBox>
     </div>
     <Foot />
   </div>

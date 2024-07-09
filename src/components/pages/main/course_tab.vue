@@ -57,10 +57,16 @@ onMounted(async () => {
     return;
   }
   let result = await getsharecourse(recordId);
-  const data = result.json_data;
-  console.log(data);
-  store.dispatch("importTabs", data);
-  window.location.href = "/#/main";
+  console.log(result);
+  if(result){
+    const data = result.json_data;
+    // console.log(data);
+    store.dispatch("importTabs", data);
+    window.location.href = "/#/main";
+  }
+  else{
+    window.location.href = "/#/record/error";
+  }
 });
 
 const tabs = computed(() => store.state.course.TotalCourseData);
