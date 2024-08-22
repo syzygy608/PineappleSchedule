@@ -58,13 +58,12 @@ onMounted(async () => {
   }
   let result = await getsharecourse(recordId);
   console.log(result);
-  if(result){
+  if (result) {
     const data = result.json_data;
     // console.log(data);
     store.dispatch("importTabs", data);
     window.location.href = "/#/main";
-  }
-  else{
+  } else {
     window.location.href = "/#/record/error";
   }
 });

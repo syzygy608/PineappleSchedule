@@ -37,12 +37,18 @@
           class="text-center text-3xl font-bold border-b-2 mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">
           成員介紹
         </div>
-        <div class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
-          <div class="w-[20rem] align-middle flex items-center" v-lazy-container="{ selector: 'img' }">
-            <img data-src="/member01.jpg" class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
+        <div
+          class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
+          <div
+            class="w-[20rem] align-middle flex items-center"
+            v-lazy-container="{ selector: 'img' }">
+            <img
+              data-src="/member01.jpg"
+              class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
           </div>
           <div class="text-center md:text-left md:ml-6">
-            <p class="text-2xl font-bold px-5 border-b border-white text-orange-700">
+            <p
+              class="text-2xl font-bold px-5 border-b border-white text-orange-700">
               創辦人 吳翰平
             </p>
             <p class="px-6 py-3 text-xl">
@@ -52,12 +58,18 @@
             </p>
           </div>
         </div>
-        <div class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
-          <div class="w-[20rem] align-middle flex items-center" v-lazy-container="{ selector: 'img' }">
-            <img data-src="/member02.jpg" class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
+        <div
+          class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
+          <div
+            class="w-[20rem] align-middle flex items-center"
+            v-lazy-container="{ selector: 'img' }">
+            <img
+              data-src="/member02.jpg"
+              class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
           </div>
           <div class="text-center md:text-left md:ml-6">
-            <p class="text-2xl font-bold px-5 border-b border-white text-orange-700">
+            <p
+              class="text-2xl font-bold px-5 border-b border-white text-orange-700">
               王子銜
             </p>
             <p class="px-6 py-3 text-xl">
@@ -67,12 +79,18 @@
             </p>
           </div>
         </div>
-        <div class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
-          <div class="w-[20rem] align-middle flex items-center" v-lazy-container="{ selector: 'img' }">
-            <img data-src="/member03.jpg" class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
+        <div
+          class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
+          <div
+            class="w-[20rem] align-middle flex items-center"
+            v-lazy-container="{ selector: 'img' }">
+            <img
+              data-src="/member03.jpg"
+              class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
           </div>
           <div class="text-center md:text-left md:ml-6">
-            <p class="text-2xl font-bold px-5 border-b border-white text-orange-700">
+            <p
+              class="text-2xl font-bold px-5 border-b border-white text-orange-700">
               楊其龍
             </p>
             <p class="px-6 py-3 text-xl">
@@ -82,12 +100,18 @@
             </p>
           </div>
         </div>
-        <div class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
-          <div class="w-[20rem] align-middle flex items-center" v-lazy-container="{ selector: 'img' }">
-            <img data-src="/member04.png" class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
+        <div
+          class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
+          <div
+            class="w-[20rem] align-middle flex items-center"
+            v-lazy-container="{ selector: 'img' }">
+            <img
+              data-src="/member04.png"
+              class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
           </div>
           <div class="text-center md:text-left md:ml-6">
-            <p class="text-2xl font-bold px-5 border-b border-white text-orange-700">
+            <p
+              class="text-2xl font-bold px-5 border-b border-white text-orange-700">
               凃昀辰
             </p>
             <p class="px-6 py-3 text-xl">
