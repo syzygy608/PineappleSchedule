@@ -53,7 +53,10 @@
             清空課表
             <DeleteOutlined />
           </button>
-          <button class="btn-normal w-[8rem]" v-on:click="shareTable" id = "share">
+          <button
+            class="btn-normal w-[8rem]"
+            v-on:click="shareTable"
+            id="share">
             分享課表
             <ExportOutlined />
           </button>
@@ -133,8 +136,9 @@
       class="w-full md:w-9/12 mx-auto py-3"
       v-if="searchType == '以時間區間搜尋'"></div>
   </div>
-  <div class = "flex fixed top-0 left-0 w-screen h-screen z-10" v-show="waiting">
-  </div>
+  <div
+    class="flex fixed top-0 left-0 w-screen h-screen z-10"
+    v-show="waiting"></div>
 </template>
 
 <script setup>
