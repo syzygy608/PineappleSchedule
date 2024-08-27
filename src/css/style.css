@@ -25,7 +25,7 @@ img {
   @apply text-center font-medium mx-2 px-5 py-3 border-2 border-orange-200 bg-orange-200 rounded-full hover:bg-transparent duration-300;
 }
 .btn-normal {
-  @apply text-center shadow-2xl text-white font-medium mx-2 px-5 py-1 border-2 border-gray-500 bg-gray-500 rounded-lg hover:bg-transparent hover:text-black duration-500;
+  @apply text-center shadow-2xl  flex justify-center items-center text-lime-900 font-medium mx-2 px-5 py-1 border-2 border-lime-600 bg-lime-600/60 rounded-lg hover:bg-transparent duration-300;
 }
 .btn-comment {
   @apply text-center shadow-2xl font-medium mx-2 px-5 py-1 border-2 border-[#aefff7] bg-[#aefff7] rounded-lg hover:bg-transparent hover:text-white duration-500;

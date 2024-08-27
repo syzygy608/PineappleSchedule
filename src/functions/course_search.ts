@@ -5,7 +5,28 @@ const env = import.meta.env;
 
 const apiSite = `${env.VITE_BACKEND_DEVICE}/`;
 
-export async function searchCourse(Input: string) {
+export async function searchSemster() {
+  const apiUrl = apiSite + "semester/all";
+
+  return new Promise((resolve, reject) => {
+    axios
+      .get(apiUrl, {})
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        // 在這裡處理錯誤
+        console.error(error);
+        reject(error);
+      });
+  });
+}
+
+export async function searchCourse(
+  Input: string,
+  year: number,
+  semester: number,
+) {
   const apiUrl = apiSite + "searchCourse";
   const keyword = Input.trim();
   // const delay = (n:number) => new Promise( r => setTimeout(r, n*1000));
@@ -17,6 +38,8 @@ export async function searchCourse(Input: string) {
       .get(apiUrl, {
         params: {
           keyword: keyword,
+          year: year,
+          semester: semester,
         },
       })
       .then((response) => {
@@ -36,7 +59,11 @@ export async function searchCourse(Input: string) {
   });
 }
 
-export async function recordcourse(course: object) {
+export async function recordcourse(
+  course: object,
+  year: number,
+  semester: number,
+) {
   const apiUrl = apiSite + "record/userSelectClass";
   //console.log(apiUrl)
 
@@ -45,6 +72,8 @@ export async function recordcourse(course: object) {
       .get(apiUrl, {
         params: {
           keyword: course,
+          year: year,
+          semester: semester,
         },
       })
       .then((response) => {
@@ -59,7 +88,11 @@ export async function recordcourse(course: object) {
   });
 }
 
-export async function searchByTeacher(Input: string) {
+export async function searchByTeacher(
+  Input: string,
+  year: number,
+  semester: number,
+) {
   const apiUrl = apiSite + "searchCourse/ByTeacher";
   const keyword = Input.trim();
   // const delay = (n:number) => new Promise( r => setTimeout(r, n*1000));
@@ -71,6 +104,8 @@ export async function searchByTeacher(Input: string) {
       .get(apiUrl, {
         params: {
           Teacher: keyword,
+          year: year,
+          semester: semester,
         },
       })
       .then((response) => {
@@ -98,6 +133,8 @@ export async function searchCourseByTime(
   day: number,
   start: number,
   end: number,
+  year: number,
+  semester: number,
 ) {
   const apiUrl = apiSite + "searchCourse/ByTime";
 
@@ -108,6 +145,8 @@ export async function searchCourseByTime(
           day: day,
           start: start,
           end: end,
+          year: year,
+          semester: semester,
         },
       })
       .then((response) => {
@@ -123,31 +162,15 @@ export async function searchCourseByTime(
   });
 }
 
-export async function getDepartment() {
+export async function getDepartment(year: number, semester: number) {
   const apiUrl = apiSite + "searchCourse/getDepartment";
-
-  return new Promise((resolve, reject) => {
-    axios
-      .get(apiUrl, {})
-      .then((response) => {
-        resolve(response.data);
-      })
-      .catch((error) => {
-        // 在這裡處理錯誤
-        console.error(error);
-        reject(error);
-      });
-  });
-}
-
-export async function getGradeByDepartment(Department: string) {
-  const apiUrl = apiSite + "searchCourse/GetGardeByDepartment";
 
   return new Promise((resolve, reject) => {
     axios
       .get(apiUrl, {
         params: {
-          Department: Department,
+          year: year,
+          semester: semester,
         },
       })
       .then((response) => {
@@ -161,7 +184,38 @@ export async function getGradeByDepartment(Department: string) {
   });
 }
 
-export async function getCourseByDepartment(Department: string) {
+export async function getGradeByDepartment(
+  Department: string,
+  year: number,
+  semester: number,
+) {
+  const apiUrl = apiSite + "searchCourse/GetGardeByDepartment";
+
+  return new Promise((resolve, reject) => {
+    axios
+      .get(apiUrl, {
+        params: {
+          Department: Department,
+          year: year,
+          semester: semester,
+        },
+      })
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        // 在這裡處理錯誤
+        console.error(error);
+        reject(error);
+      });
+  });
+}
+
+export async function getCourseByDepartment(
+  Department: string,
+  year: number,
+  semester: number,
+) {
   const apiUrl = apiSite + "searchCourse/ByDepartment";
 
   return new Promise((resolve, reject) => {
@@ -169,6 +223,8 @@ export async function getCourseByDepartment(Department: string) {
       .get(apiUrl, {
         params: {
           Department: Department,
+          year: year,
+          semester: semester,
         },
       })
       .then((response) => {
@@ -188,6 +244,8 @@ export async function searchDepartmentByOther(
   teacher: string,
   class_room: string,
   credit: number,
+  year: number,
+  semester: number,
 ) {
   const apiUrl = apiSite + "searchCourse/searchDepartmentByOther";
 
@@ -200,6 +258,8 @@ export async function searchDepartmentByOther(
           teacher: teacher,
           class_room: class_room,
           credit: credit,
+          year: year,
+          semester: semester,
         },
       })
       .then((response) => {
@@ -219,6 +279,8 @@ export async function searchGradeByOther(
   teacher: string,
   class_room: string,
   credit: number,
+  year: number,
+  semester: number,
 ) {
   const apiUrl = apiSite + "searchCourse/searchGradeByOther";
 
@@ -231,6 +293,8 @@ export async function searchGradeByOther(
           teacher: teacher,
           class_room: class_room,
           credit: credit,
+          year: year,
+          semester: semester,
         },
       })
       .then((response) => {

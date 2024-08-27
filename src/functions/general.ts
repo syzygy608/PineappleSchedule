@@ -327,10 +327,26 @@ export function InitTable() {
     }
     data_table.push(row);
   }
-  localStorage.setItem("courseTable", JSON.stringify(data_table));
+  // localStorage.setItem("courseTable", JSON.stringify(data_table));
   return data_table;
 }
 
 export function GetCourseTable() {
   return store.state.course.classStorage;
+}
+
+export function getArrayShape(array: any) {
+  if (!Array.isArray(array)) {
+    return []; // 不是陣列，返回空數組
+  }
+
+  const shape = [];
+
+  let currentLevel = array;
+  while (Array.isArray(currentLevel)) {
+    shape.push(currentLevel.length);
+    currentLevel = currentLevel[0];
+  }
+
+  return shape;
 }

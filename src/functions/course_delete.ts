@@ -1,9 +1,12 @@
 import { Course } from "./general";
 import store from "../store";
 import { rowspanize } from "./rowspanizer";
+
 export async function courseDelete(item: Course) {
   // 比對 uuid 其他不管
-  let data = JSON.parse(localStorage.getItem("courseTable")!);
+  let TotalCourseData = store.state.course.TotalCourseData;
+  let data =
+    TotalCourseData[store.state.course.activeIndex].classStorage;
   let table: Course[][] = [];
   for (let i = 0; i < data.length; i++) {
     let row: Course[] = [];
@@ -58,7 +61,8 @@ export async function courseDelete(item: Course) {
   }
   // 不要在這邊儲存localstorage，使用store
   await store.dispatch("deleteCourseList", item);
-  rowspanize(table);
+  table = rowspanize(table);
+  store.dispatch("addCourse", table);
   return true;
 }
 

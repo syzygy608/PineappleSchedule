@@ -4,7 +4,16 @@
       class="w-full mx-auto my-6 px-4 py-4 bg-gray-100 rounded-lg shadow-lg md:w-9/12 overflow-x-auto">
       <div class="text-xl font-semibold">開始建置你的課表</div>
       <div class="my-2">
-        <div class="flex flex-col py-1 w-40">
+        <div class="flex flex-row py-1 w-40">
+          <select
+            class="mx-1 py-1 rounded-md text-center"
+            v-model="searchSem"
+            v-if="searchType != '自定義新增課程'">
+            <option disabled>選擇課表學期</option>
+            <option v-for="item in semList" :key="item" :value="item">
+              {{ item.year }} - {{ item.semester }}
+            </option>
+          </select>
           <select
             class="mx-1 py-1 rounded-md text-center"
             v-model="searchType">
@@ -36,25 +45,26 @@
             </div>
             <span class="mx-3 py-1 min-w-[4rem]"> 顯示學分 </span>
           </div>
-          <button
-            class="btn-normal min-w-[8rem]"
-            v-on:click="show_list">
-            展開課程列表
+          <button class="btn-normal w-[8rem]" v-on:click="show_list">
+            課程列表
+            <CaretDownOutlined />
           </button>
-          <button
-            class="btn-normal min-w-[4rem]"
-            v-on:click="clearTable">
+          <button class="btn-normal w-[8rem]" v-on:click="clearTable">
             清空課表
+            <DeleteOutlined />
           </button>
-          <button
-            class="btn-normal min-w-[8rem]"
-            v-on:click="download">
+          <button class="btn-normal w-[8rem]" v-on:click="shareTable" id = "share">
+            分享課表
+            <ExportOutlined />
+          </button>
+          <button class="btn-normal w-[8rem]" v-on:click="download">
             下載課表
+            <DownloadOutlined />
           </button>
         </div>
         <div id="class_list" v-if="class_list_visible === true">
           <p class="text-right py-2 mx-3" v-show="show_credit">
-            目前學分: {{ credit }}
+            目前學分: {{ TotalCourseData[activeIndex].credit }}
           </p>
           <p class="mx-3 my-2">
             Hint:
@@ -123,6 +133,8 @@
       class="w-full md:w-9/12 mx-auto py-3"
       v-if="searchType == '以時間區間搜尋'"></div>
   </div>
+  <div class = "flex fixed top-0 left-0 w-screen h-screen z-10" v-show="waiting">
+  </div>
 </template>
 
 <script setup>
@@ -131,6 +143,14 @@ import Teacher from "@components/pages/main/serach_modes/teacher.vue";
 import Time from "@components/pages/main/serach_modes/time.vue";
 import Custom from "@components/pages/main/serach_modes/custom.vue";
 import Department from "@components/pages/main/serach_modes/department.vue";
+import { recordsharecourse } from "@functions/save_course";
+
+import {
+  CaretDownOutlined,
+  DeleteOutlined,
+  ExportOutlined,
+  DownloadOutlined,
+} from "@ant-design/icons-vue";
 
 import {
   onMounted,
@@ -155,6 +175,7 @@ import {
 import {
   searchDepartmentByOther,
   searchGradeByOther,
+  searchSemster,
 } from "@functions/course_search";
 import renderImage from "@functions/image_render.ts";
 import _ from "lodash";
@@ -168,8 +189,26 @@ const open_credit = () => store.dispatch("show_credit");
 const close_credit = () => store.dispatch("hidden_credit");
 const setSearchTimeMode = (flag) =>
   store.dispatch("setTimeSearchMode", flag);
-let courseList = computed(() => store.state.course.classListStorage);
-let credit = computed(() => store.state.course.credit);
+// let courseList = computed(() => store.state.course.classListStorage);
+// let credit = computed(() => store.state.course.credit);
+let TotalCourseData = computed(
+  () => store.state.course.TotalCourseData,
+);
+let activeIndex = computed(() => store.state.course.activeIndex);
+
+const searchSem = ref("選擇課表學期");
+const semList = ref([]);
+const selectedYear = ref(null);
+const selectedSem = ref(null);
+
+watch(searchSem, async (inputValue) => {
+  selectedYear.value = inputValue.year;
+  selectedSem.value = inputValue.semester;
+  store.dispatch("set_yearNsemester", [
+    selectedYear.value,
+    selectedSem.value,
+  ]);
+});
 
 const toggleActive1 = ref(false);
 const toggleActive2 = ref(false);
@@ -192,7 +231,9 @@ const getDisplayField = (item, optionId) => {
 };
 
 const filteredCourseList = computed(() => {
-  return courseList.value.map((item) => {
+  return TotalCourseData.value[
+    activeIndex.value
+  ].classListStorage.map((item) => {
     item["displayField1"] = getDisplayField(
       item,
       showListOptionDefault1.value,
@@ -225,7 +266,13 @@ let show = computed(() => store.state.course.showTable);
 let opened = computed(() => store.state.course.timeSearchMode);
 
 onMounted(async () => {
-  let temp_list = _.cloneDeep(courseList.value);
+  semList.value = await searchSemster();
+  searchSem.value = semList.value[semList.value.length - 1];
+  // console.log(TotalCourseData.value[activeIndex.value]);
+  // console.log(activeIndex.value);
+  let temp_list = _.cloneDeep(
+    TotalCourseData.value[activeIndex.value].classListStorage,
+  );
   let update = false;
   for (let i = 0; i < temp_list.length; i++) {
     let obj = temp_list[i].courseData;
@@ -258,6 +305,8 @@ onMounted(async () => {
           obj["Teacher"],
           obj["classroom"],
           obj["Credit"],
+          selectedYear.value,
+          selectedSem.value,
         );
         obj["department"] = result[0].department;
         update = true;
@@ -269,6 +318,8 @@ onMounted(async () => {
           obj["Teacher"],
           obj["classroom"],
           obj["Credit"],
+          selectedYear.value,
+          selectedSem.value,
         );
         obj["grade"] = result[0].grade;
         update = true;
@@ -326,9 +377,26 @@ var clearTable = function () {
   if (confirm("確定要清空課表嗎？")) {
     // 清空課表
     store.dispatch("clearCourse");
-    window.location.reload();
+    // window.location.reload();
   }
 };
+
+const waiting = ref(false);
+
+const shareTable = async function () {
+  document.body.style.cursor = "wait";
+  waiting.value = true;
+  console.log(TotalCourseData.value[activeIndex.value]);
+  let result = await recordsharecourse(
+    TotalCourseData.value[activeIndex.value],
+  );
+  await navigator.clipboard.writeText(result);
+  alert("已複製分享連結到剪貼簿");
+  document.body.style.cursor = "default";
+  waiting.value = false;
+  console.log(result);
+};
+
 var download = function () {
   renderImage("WholeTable"); // finish
 };

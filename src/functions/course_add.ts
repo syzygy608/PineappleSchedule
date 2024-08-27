@@ -19,7 +19,9 @@ const env = import.meta.env;
 // and return the status of the operation
 
 export function classconflict(course: any) {
-  let table: Course[][] = store.state.course.classStorage;
+  let table: Course[][] =
+    store.state.course.TotalCourseData[store.state.course.activeIndex]
+      .classStorage;
   let time = splittime(course.class_time);
   for (let i = 0; i < time.length; i++) {
     let weekDayIndex = WeekDayToInt[time[i][0]]; // 2 is the offset of the first two columns
@@ -51,8 +53,10 @@ function courseAdd(
   // push the course object to the local storage
   // store information in the database
   // return the status of the operation
-  let table: Course[][] = _.cloneDeep(
-    store.state.course.classStorage,
+  let activeIndex = store.state.course.activeIndex;
+  let TotalCourseData = store.state.course.TotalCourseData;
+  let table = _.cloneDeep(
+    toRaw(TotalCourseData[activeIndex].classStorage),
   );
   let Uuid = uuidv4();
   let course = new Course({
@@ -91,7 +95,8 @@ function courseAdd(
   store.dispatch("addCourseList", course);
   // 不要在這邊儲存localstorage，使用store
   // window.location.reload();
-  rowspanize(table);
+  table = rowspanize(table);
+  store.dispatch("addCourse", table);
   return true;
 }
 
@@ -101,7 +106,11 @@ function searchAdd(course_list: Course[]) {
   // store information in the database
   // return the status of the operation
   // console.log(course_list);
-  let table = _.cloneDeep(toRaw(store.state.course.classStorage));
+  let activeIndex = store.state.course.activeIndex;
+  let TotalCourseData = store.state.course.TotalCourseData;
+  let table = _.cloneDeep(
+    toRaw(TotalCourseData[activeIndex].classStorage),
+  );
   // put the list of courses into the table
   for (let i = 0; i < course_list.length; i++) {
     let course = course_list[i];
@@ -122,8 +131,9 @@ function searchAdd(course_list: Course[]) {
       }
     }
   }
-  // 不要在這邊儲存localstorage，使用storec
-  rowspanize(table);
+  // 不要在這邊儲存localstorage，使用store
+  table = rowspanize(table);
+  store.dispatch("addCourse", table);
   return true;
 }
 
@@ -152,7 +162,11 @@ export function push_to_table(mode: Number, item: any) {
       return false;
     }
   } else if (mode == 2) {
-    recordcourse(item);
+    recordcourse(
+      item,
+      store.state.course.selectedYear,
+      store.state.course.selectedSemester,
+    );
     let time = splittime(item.class_time);
     let data = [];
     let Uuid = uuidv4();

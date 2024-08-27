@@ -18,6 +18,9 @@
     </div>
     <div>
       <div class="text-2xl font-bold text-orange-700 my-3">排課</div>
+      <p class="text-base my-1 mx-3">
+        除了最新年度的課程外，我們也提供了歷年的課程資料，可以在搜尋欄中選擇年度。
+      </p>
       <div
         class="text-lg font-semibold border-b border-b-black text-orange-600">
         課程名稱搜尋
@@ -87,6 +90,22 @@
       <p class="text-base my-1 mx-3">
         在課表製作頁面，可以將點選下載課表儲存，並且可以在下次開啟時直接載入，
         只要在同一裝置的同瀏覽器，就可以保存你的所有課表資訊。
+      </p>
+      <div
+        class="text-lg font-semibold border-b border-b-black text-orange-600">
+        課表分享
+      </div>
+      <p class="text-base my-1 mx-3">
+        在課表製作頁面，可以將點選分享課表，會產生一個網址，可以分享給其他人，
+        這個網址可以直接開啟課表，但是無法修改課表。
+      </p>
+      <div
+        class="text-lg font-semibold border-b border-b-black text-orange-600">
+        多課表製作
+      </div>
+      <p class="text-base my-1 mx-3">
+        為了方便大家在排課時安排多種方案，或者紀錄朋友的課表，我們提供了多課表製作的功能，
+        可以在課表製作頁面新增多個課表，並且可以在不同課表間切換。
       </p>
       <div
         class="text-lg font-semibold border-b border-b-black text-orange-600">

@@ -8,6 +8,8 @@ import comment from "@components/pages/main/comment.vue";
 import inputArea from "@components/pages/main/inputArea.vue";
 import Colorpick from "@components/pages/main/colorTemplate.vue";
 import timeSelection from "@components/pages/main/timeSelection.vue";
+import Modal from "@components/pages/main/modal.vue";
+import course_tab from "@components/pages/main/course_tab.vue";
 import store from "../store";
 
 const show_colorpick = computed(
@@ -27,13 +29,9 @@ watch(status, async (val) => {
 });
 
 import { getVisitCount, visitWeb } from "@functions/web_statistic.ts";
+import Time from "../components/pages/main/serach_modes/time.vue";
+import TimeSelection from "../components/pages/main/timeSelection.vue";
 const visitCount = ref(0);
-onMounted(async () => {
-  let succ = await visitWeb("main"); // 訪問網站 目前在後台測試已經成功
-  visitCount.value = await getVisitCount("main");
-  console.log(`visit count: ${visitCount.value}`);
-  resizeObserver.observe(left.value);
-});
 
 onUnmounted(() => {
   document.body.style.overflow = "auto";
@@ -43,6 +41,13 @@ const left = ref();
 const wid = ref();
 const resizeObserver = new ResizeObserver((entries) => {
   wid.value = entries.slice(-1)[0].target.clientWidth;
+});
+
+onMounted(async () => {
+  let succ = await visitWeb("main"); // 訪問網站 目前在後台測試已經成功
+  visitCount.value = await getVisitCount("main");
+  console.log(`visit count: ${visitCount.value}`);
+  resizeObserver.observe(left.value);
 });
 </script>
 
@@ -59,6 +64,7 @@ const resizeObserver = new ResizeObserver((entries) => {
             ref="left">
             <inputArea />
             <Colorpick v-show="show_colorpick" />
+            <course_tab />
             <timeSelection :message="wid" />
             <classTable />
           </div>
@@ -70,4 +76,5 @@ const resizeObserver = new ResizeObserver((entries) => {
       <Foot />
     </div>
   </div>
+  <Modal />
 </template>

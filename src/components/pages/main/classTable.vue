@@ -4,7 +4,7 @@
       class="bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto md:w-6/12 min-w-[60rem]"
       id="WholeTable">
       <p class="text-right py-2 mx-3" v-show="show_credit">
-        目前學分: {{ credit }}
+        目前學分: {{ TotalCourseData[activeIndex].credit }}
       </p>
       <div class="relative inset-0">
         <div
@@ -121,7 +121,10 @@
               </tr>
             </thead>
             <tbody v-if="show">
-              <tr v-for="row in course_data" :key="row.id">
+              <tr
+                v-for="row in TotalCourseData[activeIndex]
+                  .classStorage"
+                :key="row.id">
                 <courseCard
                   v-for="item in row"
                   :key="item.id"
@@ -176,9 +179,13 @@ const status = computed(() => store.state.course.show);
 const show_credit = computed(() => store.state.course.show_credit);
 const open_credit = () => store.dispatch("show_credit");
 const close_credit = () => store.dispatch("hidden_credit");
-let course_data = computed(() => store.state.course.classStorage);
-let courseList = computed(() => store.state.course.classListStorage);
-let credit = computed(() => store.state.course.credit);
+// let course_data = computed(() => store.state.course.classStorage);
+// let courseList = computed(() => store.state.course.classListStorage);
+// let credit = computed(() => store.state.course.credit);
+let TotalCourseData = computed(
+  () => store.state.course.TotalCourseData,
+);
+let activeIndex = computed(() => store.state.course.activeIndex);
 
 const hidden = () => {
   store.dispatch("hidden");
@@ -284,6 +291,8 @@ async function showsearchclass(event) {
 
 onMounted(() => {
   store.dispatch("initAll");
+  // console.log(activeIndex.value);
+  // console.log(TotalCourseData.value[activeIndex.value].classStorage);
   // using env to control <ul> display
   let ul = document.getElementById("result");
   if (ul != null) {

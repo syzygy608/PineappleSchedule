@@ -10,8 +10,10 @@ import ErrorBox from "@components/common/error_box.vue";
     <div
       style="height: calc(100vh - 8rem)"
       class="flex items-center justify-center">
-      <ErrorBox error="Something Went Wrong!!"></ErrorBox>
+      <ErrorBox
+        error="分享連結錯誤或者已過期"></ErrorBox>
     </div>
     <Foot />
   </div>
 </template>
+>

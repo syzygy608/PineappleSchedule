@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed z-30 top-0 left-0 h-screen flex items-center backdrop-blur-sm"
+    class="fixed z-30 top-0 left-0 h-screen w-screen flex items-center backdrop-blur-sm"
     v-show="status"
     :style="{ width: widthnum }">
     <div
@@ -18,15 +18,19 @@
         <div
           class="mx-1"
           v-if="search_class_list_in_timemode.length && !isLoading">
-          <div
-            class="flex items-center"
-            @click="clickState()">
+          <div class="flex items-center" @click="clickState()">
             <div
               class="w-[4.2em] h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out"
-              :class="{ 'bg-orange-300': toggle == 1, 'bg-purple-300': toggle == 2 }">
+              :class="{
+                'bg-orange-300': toggle == 1,
+                'bg-purple-300': toggle == 2,
+              }">
               <div
                 class="bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out"
-                :class="{ 'translate-x-6': toggle == 1, 'translate-x-12': toggle == 2 }"></div>
+                :class="{
+                  'translate-x-6': toggle == 1,
+                  'translate-x-12': toggle == 2,
+                }"></div>
             </div>
             <span class="mx-3 py-1 min-w-[4rem]" v-if="toggle == 0">
               顯示所有課程
@@ -130,14 +134,22 @@ const selectedCoursesearchtime = ref({});
 const out = ref();
 const toggle = ref(0);
 
+const selectedYear = computed(() => store.state.course.selectedYear);
+const selectedSemester = computed(
+  () => store.state.course.selectedSemester,
+);
+
 const filteredClassList = computed(() => {
-  if(toggle.value == 0) // 顯示全部課程
+  if (toggle.value == 0)
+    // 顯示全部課程
     return search_class_list_in_timemode.value;
-  else if(toggle.value == 1) // 顯示通識課程
+  else if (toggle.value == 1)
+    // 顯示通識課程
     return search_class_list_in_timemode.value.filter(
       (item) => item.department && item.department.includes("通識"),
     );
-  else // 顯示非通識課程
+  // 顯示非通識課程
+  else
     return search_class_list_in_timemode.value.filter(
       (item) => item.department && !item.department.includes("通識"),
     );
@@ -171,6 +183,8 @@ watch(searchTimeArgument, async () => {
     searchTimeArgument.value[0],
     searchTimeArgument.value[1],
     searchTimeArgument.value[2],
+    selectedYear.value,
+    selectedSemester.value,
   );
   search_class_list_in_timemode.value = [];
   for (let i = 0; i < data.length; i++) {
