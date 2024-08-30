@@ -9,10 +9,12 @@
       <div class="bg-white p-8 rounded-3xl shadow-lg my-auto">
         <h2 class="text-xl font-semibold mb-4 text-center">提醒</h2>
         <hr class="py-2" />
-        <p class="mb-4" v-if="!modify" v-html="content">
-        </p>
-        <div class = "w-[30rem] min-h-[20rem]">
-          <textarea v-model = "content" class="w-full h-[20rem] border-2 border-gray-300 p-2 rounded" v-if="modify"></textarea>
+        <p class="mb-4" v-if="!modify" v-html="content"></p>
+        <div class="w-[30rem] min-h-[20rem]">
+          <textarea
+            v-model="content"
+            class="w-full h-[20rem] border-2 border-gray-300 p-2 rounded"
+            v-if="modify"></textarea>
         </div>
         <div class="text-center">
           <button
@@ -50,7 +52,7 @@ const content = ref(`
 同時要請手機使用者多多包涵，為了實現更多功能，<br />
 目前手機版的網頁版面不太完善，請使用電腦版瀏覽器以獲得更好的使用體驗，<br />
 手機板的優化將在下個大版本進行，敬請期待!
-`)
+`);
 
 const modify = ref(false);
 
@@ -59,8 +61,7 @@ if (localStorage.getItem("token")) {
   if (res) {
     modify.value = true;
     console.log("Token verified");
-  }
-  else {
+  } else {
     console.log("Token expired");
   }
 }

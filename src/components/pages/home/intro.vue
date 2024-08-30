@@ -18,13 +18,12 @@
             <textarea
               class="w-full h-32 bg-orange-100/50 text-gray-500 p-3"
               v-model="feature"
-              v-if="modify"
-            ></textarea>
-            <ol class="list-decimal list-inside my-3" v-html="feature" v-else>
-            
-            </ol>
+              v-if="modify"></textarea>
+            <ol
+              class="list-decimal list-inside my-3"
+              v-html="feature"
+              v-else></ol>
           </div>
-          
         </div>
       </div>
       <div class="w-11/12 md:w-7/12 mx-auto my-3">
@@ -68,7 +67,7 @@
           <div class="text-center md:text-left md:ml-6">
             <p
               class="text-2xl font-bold px-5 border-b border-white text-orange-700">
-               {{ members[1].name }}
+              {{ members[1].name }}
             </p>
             <textarea
               class="px-6 w-[25rem] h-[10rem] py-3 text-xl bg-orange-100/50 text-gray-500"
@@ -135,14 +134,11 @@
           版本紀錄
         </div>
         <div class="text-xl text-gray-500 my-1">
-          <div v-html="version" v-if="!modify">
-
-          </div>
+          <div v-html="version" v-if="!modify"></div>
           <textarea
             class="w-full h-32 bg-orange-100/50 text-gray-500 p-3"
             v-model="version"
-            v-if="modify"
-          ></textarea>
+            v-if="modify"></textarea>
         </div>
       </div>
 
@@ -200,7 +196,7 @@ const feature = ref(`
   <li>歷年課程查詢</li>
   <li>建立多組課表</li>
   <li>課表分享功能</li>
-`)
+`);
 
 const version = ref(`
 v 0.0.1 第一次公開測試版本開放 <br />
@@ -220,28 +216,30 @@ v 1.0.5
 課程列表可以顯示更多課程資訊，新增選擇課程時的衝堂顏色標示。<br />
 v 1.0.6
 新增歷年課程查詢功能，新增建立多組課表功能，新增課表分享功能。<br />
-`)
+`);
 
-const members = ref(
-  [
-    {
-      "name": "吳翰平",
-      "intro": "現在就讀於中正大學資訊工程學系四年級，目前正在鑽研程式演算法競賽與網頁前後端工程，負責本網站的前端工程，是一位 Vue 新手。",
-    },
-    {
-      "name": "王子銜",
-      "intro": "中正大學通訊工程學系四年級，主要研究網頁前後端與演算法競賽。 2023 中研院 Summer intern",
-    },
-    {
-      "name": "楊其龍",
-      "intro": "中正大學資訊工程學系四年級 主要研究軟體工程、網頁前後端、競程， 目前主要學習ML， 此專案主要負責後端伺服器、資料庫、API。",
-    },
-    {
-      "name": "凃昀辰",
-      "intro": "現在就讀於資訊工程學系四年級，主要研究跨域資訊安全與CTF， 目前主要為學習ML相關知識。",
-    }
-  ]
-)
+const members = ref([
+  {
+    name: "吳翰平",
+    intro:
+      "現在就讀於中正大學資訊工程學系四年級，目前正在鑽研程式演算法競賽與網頁前後端工程，負責本網站的前端工程，是一位 Vue 新手。",
+  },
+  {
+    name: "王子銜",
+    intro:
+      "中正大學通訊工程學系四年級，主要研究網頁前後端與演算法競賽。 2023 中研院 Summer intern",
+  },
+  {
+    name: "楊其龍",
+    intro:
+      "中正大學資訊工程學系四年級 主要研究軟體工程、網頁前後端、競程， 目前主要學習ML， 此專案主要負責後端伺服器、資料庫、API。",
+  },
+  {
+    name: "凃昀辰",
+    intro:
+      "現在就讀於資訊工程學系四年級，主要研究跨域資訊安全與CTF， 目前主要為學習ML相關知識。",
+  },
+]);
 
 const modify = ref(false);
 
@@ -250,12 +248,10 @@ if (localStorage.getItem("token")) {
   if (res) {
     modify.value = true;
     console.log("Token verified");
-  }
-  else {
+  } else {
     console.log("Token expired");
   }
 }
-
 </script>
 
 <style>
