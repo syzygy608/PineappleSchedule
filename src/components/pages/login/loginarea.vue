@@ -43,7 +43,7 @@ import axios from "axios";
 const env = import.meta.env;
 import Token from "../../../functions/token.ts";
 
-const apiSite = `https://${env.VITE_BACKEND_DEVICE}/`;
+const apiSite = `${env.VITE_BACKEND_DEVICE}/`;
 
 export default {
   name: "login",
