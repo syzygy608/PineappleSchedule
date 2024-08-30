@@ -56,14 +56,17 @@ const focusNext = (event, index) => {
 };
 
 const focusPre = (event, index) => {
-  if (event.key === "Backspace" && index > 0 && inputs.value[index] === "") {
+  if (
+    event.key === "Backspace" &&
+    index > 0 &&
+    inputs.value[index] === ""
+  ) {
     inputs.value[index - 1] = "";
     event.target.previousElementSibling.focus();
   }
 };
 
 const apiSite = `${env.VITE_BACKEND_DEVICE}/`;
-
 
 async function handleSubmit() {
   const code = inputs.value.join("");
