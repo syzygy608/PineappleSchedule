@@ -18,6 +18,7 @@
             inputmode="numeric"
             required
             v-model="inputs[index]"
+            @keydown="focusPre($event, index)"
             @input="focusNext($event, index)" />
         </div>
         <button
@@ -41,6 +42,11 @@ import router from "@router/index.ts";
 const inputs = ref(Array(6).fill(""));
 // 定義一個方法來自動聚焦到下一個輸入框
 const focusNext = (event, index) => {
+  const value = event.target.value;
+  if (!/^\d$/.test(value)) {
+    inputs.value[index] = "";
+    return;
+  }
   if (
     event.target.value.length === 1 &&
     index < inputs.value.length - 1
@@ -49,7 +55,15 @@ const focusNext = (event, index) => {
   }
 };
 
+const focusPre = (event, index) => {
+  if (event.key === "Backspace" && index > 0 && inputs.value[index] === "") {
+    inputs.value[index - 1] = "";
+    event.target.previousElementSibling.focus();
+  }
+};
+
 const apiSite = `${env.VITE_BACKEND_DEVICE}/`;
+
 
 async function handleSubmit() {
   const code = inputs.value.join("");
