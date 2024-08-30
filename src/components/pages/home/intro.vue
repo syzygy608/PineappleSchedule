@@ -14,22 +14,17 @@
           我們是現在就讀於中正大學的學生，為了改善中正學生的排課選課體驗而建立了中正課表團隊，<br />
           希望能透過我們所學和自身經驗打造一個更加舒適且符合中正學生所需的服務。<br /><br />
           目前本網站提供之功能如下<br />
-          <ol class="list-decimal list-inside my-3">
-            <li>
-              手動輸入或搜尋課程資訊 (可保存於同裝置之同一瀏覽器)
-            </li>
-            <li>自動計算學分</li>
-            <li>產生對應之課表</li>
-            <li>課程格子背景顏色與文字顏色自定義</li>
-            <li>下載課表圖檔</li>
-            <li>課程評價查詢</li>
-            <li>時間搜尋課程</li>
-            <li>以教師名稱搜尋課程</li>
-            <li>以系所年級進行搜尋</li>
-            <li>歷年課程查詢</li>
-            <li>建立多組課表</li>
-            <li>課表分享功能</li>
-          </ol>
+          <div>
+            <textarea
+              class="w-full h-32 bg-orange-100/50 text-gray-500 p-3"
+              v-model="feature"
+              v-if="modify"
+            ></textarea>
+            <ol class="list-decimal list-inside my-3" v-html="feature" v-else>
+            
+            </ol>
+          </div>
+          
         </div>
       </div>
       <div class="w-11/12 md:w-7/12 mx-auto my-3">
@@ -49,12 +44,15 @@
           <div class="text-center md:text-left md:ml-6">
             <p
               class="text-2xl font-bold px-5 border-b border-white text-orange-700">
-              創辦人 吳翰平
+              {{ members[0].name }}
             </p>
-            <p class="px-6 py-3 text-xl">
-              現在就讀於中正大學資訊工程學系四年級，
-              目前正在鑽研程式演算法競賽與網頁前後端工程，
-              負責本網站的前端工程，是一位 Vue 新手。
+            <textarea
+              class="px-6 w-[25rem] h-[10rem] py-3 text-xl bg-orange-100/50 text-gray-500"
+              v-model="members[0].intro"
+              v-if="modify">
+            </textarea>
+            <p class="px-6 py-3 text-xl" v-else>
+              {{ members[0].intro }}
             </p>
           </div>
         </div>
@@ -70,12 +68,15 @@
           <div class="text-center md:text-left md:ml-6">
             <p
               class="text-2xl font-bold px-5 border-b border-white text-orange-700">
-              王子銜
+               {{ members[1].name }}
             </p>
-            <p class="px-6 py-3 text-xl">
-              中正大學通訊工程學系四年級，
-              主要研究網頁前後端與演算法競賽。 2023 中研院 Summer
-              intern
+            <textarea
+              class="px-6 w-[25rem] h-[10rem] py-3 text-xl bg-orange-100/50 text-gray-500"
+              v-model="members[1].intro"
+              v-if="modify">
+            </textarea>
+            <p class="px-6 py-3 text-xl" v-else>
+              {{ members[1].intro }}
             </p>
           </div>
         </div>
@@ -91,12 +92,15 @@
           <div class="text-center md:text-left md:ml-6">
             <p
               class="text-2xl font-bold px-5 border-b border-white text-orange-700">
-              楊其龍
+              {{ members[2].name }}
             </p>
-            <p class="px-6 py-3 text-xl">
-              中正大學資訊工程學系四年級
-              主要研究軟體工程、網頁前後端、競程， 目前主要學習ML，
-              此專案主要負責後端伺服器、資料庫、API。
+            <textarea
+              class="px-6 w-[25rem] h-[10rem] py-3 text-xl bg-orange-100/50 text-gray-500"
+              v-model="members[2].intro"
+              v-if="modify">
+            </textarea>
+            <p class="px-6 py-3 text-xl" v-else>
+              {{ members[2].intro }}
             </p>
           </div>
         </div>
@@ -112,11 +116,15 @@
           <div class="text-center md:text-left md:ml-6">
             <p
               class="text-2xl font-bold px-5 border-b border-white text-orange-700">
-              凃昀辰
+              {{ members[3].name }}
             </p>
-            <p class="px-6 py-3 text-xl">
-              現在就讀於資訊工程學系四年級，
-              主要研究跨域資訊安全與CTF， 目前主要為學習ML相關知識。
+            <textarea
+              class="px-6 w-[25rem] h-[10rem] py-3 text-xl bg-orange-100/50 text-gray-500"
+              v-model="members[3].intro"
+              v-if="modify">
+            </textarea>
+            <p class="px-6 py-3 text-xl" v-else>
+              {{ members[3].intro }}
             </p>
           </div>
         </div>
@@ -127,23 +135,14 @@
           版本紀錄
         </div>
         <div class="text-xl text-gray-500 my-1">
-          v 0.0.1 第一次公開測試版本開放 <br />
-          v 0.0.2 UI大規模重構與優化，準備加入搜尋功能 <br />
-          v 0.0.5 UI全面使用Tailwind改寫 <br />
-          v 0.0.6 加入搜尋功能，並使用MySQL當作資料庫 <br />
-          v 0.0.7 資料庫更改為postgreSQL <br />
-          v 0.0.8 增加計算學分之功能 <br />
-          v 1.0.0 使用 Vue + Typescript
-          來完全重構本網站，並新增數個新功能
-          <br />
-          v 1.0.1 與 ccu.plus 合作，新增查看 ccu.plus 評價功能<br />
-          v 1.0.2 更新課表合併方式，提供更穩定的課表渲染。<br />
-          v 1.0.3 新增時間搜尋、教師名稱搜尋功能。<br />
-          v 1.0.4 新增系所年級搜尋功能。<br />
-          v 1.0.5
-          課程列表可以顯示更多課程資訊，新增選擇課程時的衝堂顏色標示。<br />
-          v 1.0.6
-          新增歷年課程查詢功能，新增建立多組課表功能，新增課表分享功能。<br />
+          <div v-html="version" v-if="!modify">
+
+          </div>
+          <textarea
+            class="w-full h-32 bg-orange-100/50 text-gray-500 p-3"
+            v-model="version"
+            v-if="modify"
+          ></textarea>
         </div>
       </div>
 
@@ -184,71 +183,79 @@
 
 <script setup>
 import { useRouter } from "vue-router";
+import { ref } from "vue";
+import Token from "@functions/token";
 const router = useRouter();
 
-const slides = [
-  `<div class = "bg-orange-100/50 py-6 px-3 flex flex-row">
-        <div class = "w-[20rem] align-middle">
-            <img src = '/member01.jpg' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
-        </div>
-        <div>
-            <p class = "text-2xl font-bold px-5 border-b border-white text-orange-700">
-                創辦人 吳翰平
-            </p>
-            <p class = "px-6 py-3 text-xl">
-                現在就讀於中正大學資訊工程學系三年級，
-                目前正在鑽研程式演算法競賽與網頁前後端工程，
-                負責本網站的前端工程，是一位 Vue 新手。
-            </p>
-        </div>
-    </div>`,
-  `<div class = "bg-orange-100/50 py-6 px-3 flex flex-row">
-        <div class = "w-[20rem] align-middle">
-            <img src = '/member02.jpg' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
-        </div>
-        <div>
-            <p class = "text-2xl font-bold px-5 border-b border-white text-orange-700">
-                王子銜
-            </p>
-            <p class = "px-6 py-3 text-xl">
-                中正大學通訊工程學系三年級，
-                主要研究網頁前後端與演算法競賽。
-                2023 中研院 Summer intern
-            </p>
-        </div>
-    </div>`,
-  `<div class = "bg-orange-100/50 py-6 px-3 flex flex-row">
-        <div class = "w-[20rem] align-middle">
-            <img src = '/member03.jpg' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
-        </div>
-        <div>
-            <p class = "text-2xl font-bold px-5 border-b border-white text-orange-700">
-                楊其龍
-            </p>
-            <p class = "px-6 py-3 text-xl">
-                中正大學資訊工程學系三年級
-                主要研究軟體工程、網頁前後端、競程，
-                目前主要學習ML，
-                此專案主要負責後端伺服器、資料庫、API。
-            </p>
-        </div>
-    </div>`,
-  `<div class = "bg-orange-100/50 py-6 px-3 flex flex-row">
-        <div class = "w-[20rem] align-middle">
-            <img src = '/member04.png' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
-        </div>
-        <div>
-            <p class = "text-2xl font-bold px-5 border-b border-white text-orange-700">
-                凃昀辰
-            </p>
-            <p class = "px-6 py-3 text-xl">
-                現在就讀於資訊工程學系三年級，
-                主要研究跨域資訊安全與CTF，
-                目前主要為學習ML相關知識。
-            </p>
-        </div>
-    </div>`,
-];
+const feature = ref(`
+  <li>手動輸入或搜尋課程資訊 (可保存於同裝置之同一瀏覽器)</li>
+  <li>自動計算學分</li>
+  <li>產生對應之課表</li>
+  <li>課程格子背景顏色與文字顏色自定義</li>
+  <li>下載課表圖檔</li>
+  <li>課程評價查詢</li>
+  <li>時間搜尋課程</li>
+  <li>以教師名稱搜尋課程</li>
+  <li>以系所年級進行搜尋</li>
+  <li>歷年課程查詢</li>
+  <li>建立多組課表</li>
+  <li>課表分享功能</li>
+`)
+
+const version = ref(`
+v 0.0.1 第一次公開測試版本開放 <br />
+v 0.0.2 UI大規模重構與優化，準備加入搜尋功能 <br />
+v 0.0.5 UI全面使用Tailwind改寫 <br />
+v 0.0.6 加入搜尋功能，並使用MySQL當作資料庫 <br />
+v 0.0.7 資料庫更改為postgreSQL <br />
+v 0.0.8 增加計算學分之功能 <br />
+v 1.0.0 使用 Vue + Typescript
+來完全重構本網站，並新增數個新功能
+<br />
+v 1.0.1 與 ccu.plus 合作，新增查看 ccu.plus 評價功能<br />
+v 1.0.2 更新課表合併方式，提供更穩定的課表渲染。<br />
+v 1.0.3 新增時間搜尋、教師名稱搜尋功能。<br />
+v 1.0.4 新增系所年級搜尋功能。<br />
+v 1.0.5
+課程列表可以顯示更多課程資訊，新增選擇課程時的衝堂顏色標示。<br />
+v 1.0.6
+新增歷年課程查詢功能，新增建立多組課表功能，新增課表分享功能。<br />
+`)
+
+const members = ref(
+  [
+    {
+      "name": "吳翰平",
+      "intro": "現在就讀於中正大學資訊工程學系四年級，目前正在鑽研程式演算法競賽與網頁前後端工程，負責本網站的前端工程，是一位 Vue 新手。",
+    },
+    {
+      "name": "王子銜",
+      "intro": "中正大學通訊工程學系四年級，主要研究網頁前後端與演算法競賽。 2023 中研院 Summer intern",
+    },
+    {
+      "name": "楊其龍",
+      "intro": "中正大學資訊工程學系四年級 主要研究軟體工程、網頁前後端、競程， 目前主要學習ML， 此專案主要負責後端伺服器、資料庫、API。",
+    },
+    {
+      "name": "凃昀辰",
+      "intro": "現在就讀於資訊工程學系四年級，主要研究跨域資訊安全與CTF， 目前主要為學習ML相關知識。",
+    }
+  ]
+)
+
+const modify = ref(false);
+
+if (localStorage.getItem("token")) {
+  const res = Token.verifyToken(localStorage.getItem("token"));
+  if (res) {
+    modify.value = true;
+    console.log("Token verified");
+  }
+  else {
+    console.log("Token expired");
+  }
+}
+
 </script>
 
 <style>

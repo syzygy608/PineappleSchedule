@@ -9,7 +9,7 @@ const Token = {
   loadToken() {
     return localStorage.getItem("token");
   },
-  async varifyToken(token: string | null) {
+  async verifyToken(token: string | null) {
     if (token === null) return false;
     const apiUrl = apiSite + "verifyToken";
     return new Promise((resolve, reject) => {

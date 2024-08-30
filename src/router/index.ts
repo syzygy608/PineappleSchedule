@@ -53,7 +53,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requireAuth) {
     try {
       const token: string | null = Token.loadToken();
-      const result = Boolean(await Token.varifyToken(token));
+      const result = Boolean(await Token.verifyToken(token));
       //console.log(`result=${result}`);
       if (result) next();
       else {
