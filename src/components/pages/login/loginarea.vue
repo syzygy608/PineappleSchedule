@@ -34,8 +34,9 @@
 <script setup>
 import axios from "axios";
 const env = import.meta.env;
-import Token from "../../../functions/token.ts";
+import Token from "@functions/token.ts";
 import { ref } from "vue";
+import router from "@router/index.ts";
 
 const inputs = ref(Array(6).fill(""));
 // 定義一個方法來自動聚焦到下一個輸入框
@@ -48,42 +49,17 @@ const focusNext = (event, index) => {
   }
 };
 
-const handleSubmit = () => {
-  console.log(inputs.value);
-};
-
 const apiSite = `${env.VITE_BACKEND_DEVICE}/`;
 
-// export default {
-//   name: "login",
-//   data() {
-//     return {
-//       username: "",
-//       password: "",
-//     };
-//   },
-//   methods: {
-//     login() {
-//       const apiURL = apiSite + "login";
-//       axios
-//         .post(apiURL, {
-//           username: this.username,
-//           password: this.password,
-//         })
-//         .then((res) => {
-//           console.log(res.data);
-//           Token.saveToken(res.data.token);
-//           if (Boolean(res.data.status)) {
-//             //跳轉頁面
-//             this.$router.push({ name: "Admin" });
-//           } else {
-//             alert("帳號或密碼錯誤");
-//           }
-//         })
-//         .catch((err) => {
-//           console.log(err);
-//         });
-//     },
-//   },
-// };
+async function handleSubmit() {
+  const code = inputs.value.join("");
+  const res = await axios.post(`${apiSite}login`, { otp: code });
+  console.log(res.data);
+  if (res.data.status === true) {
+    Token.saveToken(res.data.token);
+    router.push("/admin");
+  } else {
+    alert("驗證碼錯誤");
+  }
+}
 </script>

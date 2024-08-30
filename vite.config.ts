@@ -22,6 +22,7 @@ export default defineConfig({
       "@" : path.resolve(__dirname,"./src"),
       "@components" : path.resolve(__dirname,"./src/components"),
       "@functions" : path.resolve(__dirname,"./src/functions"),
+      "@router" : path.resolve(__dirname,"./src/router"),
       'vue': 'vue/dist/vue.esm-bundler.js',
     }
   }
