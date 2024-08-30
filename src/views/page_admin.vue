@@ -1,7 +1,8 @@
 <template>
   <div id="main">
     <Navbar />
-    <div>
+    <div
+      class="w-full h-[calc(100vh-8rem)] flex items-center justify-center">
       <!-- 顯示visitCount -->
       <h1>visitCount: {{ visitCount }}</h1>
     </div>

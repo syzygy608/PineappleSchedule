@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full">
+  <div class="w-full h-[calc(100vh-8rem)] flex items-center">
     <div
-      class="w-10/12 md:w-5/12 bg-gray-100 rounded-3xl shadow-lg mx-auto my-36 py-16">
+      class="w-10/12 md:w-5/12 bg-gray-100 rounded-3xl shadow-lg mx-auto py-16">
       <div class="text-center text-2xl font-bold">後台登入</div>
       <hr class="w-10/12 mx-auto mt-3" />
       <form class="text-center py-6" @submit.prevent="login">

@@ -143,20 +143,16 @@ export function push_to_table(mode: Number, item: any) {
     if (item.className === undefined) {
       alert("請輸入課程名稱");
       return false;
-    }
-    else if (item.classRoom === undefined) {
+    } else if (item.classRoom === undefined) {
       alert("請輸入教室");
       return false;
-    }
-    else if (item.weekDay == "星期") {
+    } else if (item.weekDay == "星期") {
       alert("請選擇星期");
       return false;
-    }
-    else if (item.start == "始堂") {
+    } else if (item.start == "始堂") {
       alert("請選擇開始時間");
       return false;
-    }
-    else if (item.end == "終堂") {
+    } else if (item.end == "終堂") {
       alert("請選擇結束時間");
       return false;
     }
