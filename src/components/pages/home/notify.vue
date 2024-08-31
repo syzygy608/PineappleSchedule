@@ -13,8 +13,7 @@
         <div class="w-[30rem] min-h-[20rem]" v-if="modify">
           <textarea
             v-model="content"
-            class="w-full h-[20rem] border-2 border-gray-300 p-2 rounded"
-            ></textarea>
+            class="w-full h-[20rem] border-2 border-gray-300 p-2 rounded"></textarea>
         </div>
         <div class="text-center">
           <button

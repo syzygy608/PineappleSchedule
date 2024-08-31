@@ -59,9 +59,7 @@ const router = useRouter();
     class="z-0 block w-full bg-orange-200 md:hidden"
     v-if="login && view === 2">
     <div class="grid grid-cols-1 w-10/12 mx-auto text-left">
-      <button class="btn-head-mobile" @click="logout">
-        登出
-      </button>
+      <button class="btn-head-mobile" @click="logout">登出</button>
     </div>
   </div>
 </template>
@@ -88,5 +86,4 @@ const logout = function () {
   // login.value = false;
   // router.push("/");
 };
-
 </script>
