@@ -20,6 +20,9 @@ const router = useRouter();
       <router-link to="/main" class="btn-head">
         開始使用
       </router-link>
+      <button class="btn-head" v-if="login" @click="logout">
+        登出
+      </button>
     </div>
     <div class="block md:hidden">
       <!-- navbar collapse icon -->
@@ -52,12 +55,38 @@ const router = useRouter();
       </router-link>
     </div>
   </div>
+  <div
+    class="z-0 block w-full bg-orange-200 md:hidden"
+    v-if="login && view === 2">
+    <div class="grid grid-cols-1 w-10/12 mx-auto text-left">
+      <button class="btn-head-mobile" @click="logout">
+        登出
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
 import { ref } from "vue";
+import Token from "@functions/token";
 let view = ref(1);
 const collapse = function () {
   view.value != 2 ? (view.value = 2) : (view.value = 1);
 };
+
+const login = ref(false);
+
+if (localStorage.getItem("token")) {
+  const res = Token.verifyToken(localStorage.getItem("token"));
+  if (res) {
+    login.value = true;
+  }
+}
+
+const logout = function () {
+  // localStorage.removeItem("token");
+  // login.value = false;
+  // router.push("/");
+};
+
 </script>

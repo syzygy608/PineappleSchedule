@@ -10,11 +10,11 @@
         <h2 class="text-xl font-semibold mb-4 text-center">提醒</h2>
         <hr class="py-2" />
         <p class="mb-4" v-if="!modify" v-html="content"></p>
-        <div class="w-[30rem] min-h-[20rem]">
+        <div class="w-[30rem] min-h-[20rem]" v-if="modify">
           <textarea
             v-model="content"
             class="w-full h-[20rem] border-2 border-gray-300 p-2 rounded"
-            v-if="modify"></textarea>
+            ></textarea>
         </div>
         <div class="text-center">
           <button
