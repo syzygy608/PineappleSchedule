@@ -9,7 +9,7 @@ const router = useRouter();
     <router-link to="/">
       <div
         class="font-bold text-2xl bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">
-        中正課表 此為測試機
+        中正課表
       </div>
     </router-link>
     <div class="text-md hidden md:block">

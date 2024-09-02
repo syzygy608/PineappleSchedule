@@ -103,13 +103,16 @@ function flip() {
 }
 function openColorTemplate(item, mode) {
   // 1是卡片顏色，2是文字顏色
+  // console.log(item);
   if (mode == 1) {
-    store.dispatch("setDefaultColor", env.VITE_CARD_DEFAULT_COLOR);
+    // store.dispatch("setDefaultColor", env.VITE_CARD_DEFAULT_COLOR);
+    store.dispatch("setDefaultColor", item.getColor());
   } else if (mode == 2) {
-    store.dispatch(
-      "setDefaultColor",
-      env.VITE_CARDTEXT_DEFAULT_COLOR,
-    );
+    // store.dispatch(
+    //   "setDefaultColor",
+    //   env.VITE_CARDTEXT_DEFAULT_COLOR,
+    // );
+    store.dispatch("setDefaultColor", item.getTextColor());
   }
   store.dispatch("setCardMode", mode);
   store.dispatch("changeShowColorPick", true);

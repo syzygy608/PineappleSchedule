@@ -5,7 +5,7 @@
       class="h-6/12 mx-auto bg-white px-3 py-2 rounded-lg drop-shadow-xl">
       <ColorPicker
         :color="color"
-        default-format="rgb"
+        default-format="hex"
         class="w-full mx-auto"
         @color-change="updateColor" />
       <div class="mx-auto w-full h-full flex py-5">
@@ -40,7 +40,8 @@ const show_colorpick = computed(
   () => store.state.course.show_ColorPick,
 );
 watch(show_colorpick, () => {
-  console.log("change");
+  // console.log("change");
+  // console.log(store.state.course.defaultColor);
   color.value = store.state.course.defaultColor;
 });
 const course = computed(() => store.state.course.chooseCard);
