@@ -9,16 +9,17 @@
       <div class="relative inset-0">
         <div
           v-if="TimeMode"
+          id="virtualtablediv"
           class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-1 flex"
           @contextmenu.prevent="showsearchclass">
-          <div class="w-[11px]">
+          <div class="w-[0.5rem] ">
             <div class="h-10"></div>
             <div
               v-for="item in selectDisplay"
               class="h-[52px]"
               :class="{ selectDisplayColor: item.display }"></div>
           </div>
-          <div class="table-head w-[9.5rem]"></div>
+          <div class="table-head w-[8.5rem]"></div>
           <div class="virtualtable">
             <div class="virtualtablehead"></div>
             <drag-select
@@ -104,14 +105,14 @@
             </drag-select>
           </div>
         </div>
-        <div class="z-10">
+        <div class="z-10 w-full flex">
           <table
             class="bg-orange-100 w-full border-separate"
             id="class_table">
             <thead>
               <tr>
-                <th class="w-[10px] m-1">⠀</th>
-                <th class="table-head w-36" colspan="2">節次</th>
+                <th class="w-[0.5rem] m-1">⠀</th>
+                <th class="table-head w-[8.5rem]" colspan="2">節次</th>
                 <th class="table-head">星期一</th>
                 <th class="table-head">星期二</th>
                 <th class="table-head">星期三</th>

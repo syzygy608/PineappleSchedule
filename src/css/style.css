@@ -36,11 +36,15 @@ img {
 .virtualtable {
   @apply min-w-[8.22rem] text-center py-1.5;
 }
+#virtualtablediv > div {
+  border-collapse: separate;
+  display: table;
+}
 table {
   table-layout: fixed;
 }
 thead > tr > th {
-  @apply text-center text-gray-900 py-1.5 font-semibold min-w-[9rem] border-b border-b-gray-900;
+  @apply text-center text-gray-900 py-1.5 font-semibold border-b border-b-gray-900;
 }
 .table-head {
   @apply text-center text-gray-900 py-1.5 font-semibold min-w-[9rem];
