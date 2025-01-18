@@ -12,7 +12,7 @@
           id="virtualtablediv"
           class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-1 flex"
           @contextmenu.prevent="showsearchclass">
-          <div class="w-[0.5rem] ">
+          <div class="w-[0.5rem]">
             <div class="h-10"></div>
             <div
               v-for="item in selectDisplay"
@@ -112,7 +112,9 @@
             <thead>
               <tr>
                 <th class="w-[0.5rem] m-1">⠀</th>
-                <th class="table-head w-[8.5rem]" colspan="2">節次</th>
+                <th class="table-head w-[8.5rem]" colspan="2">
+                  節次
+                </th>
                 <th class="table-head">星期一</th>
                 <th class="table-head">星期二</th>
                 <th class="table-head">星期三</th>
