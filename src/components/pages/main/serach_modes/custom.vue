@@ -21,11 +21,15 @@
       <option selected>星期</option>
       <option v-for="day in week" :value="day">{{ day }}</option>
     </select>
-    <select class="mx-1 py-1 rounded-md text-center bg-white" v-model="start">
+    <select
+      class="mx-1 py-1 rounded-md text-center bg-white"
+      v-model="start">
       <option selected>始堂</option>
       <option v-for="cla in classes" :value="cla">{{ cla }}</option>
     </select>
-    <select class="mx-1 py-1 rounded-md text-center bg-white" v-model="end">
+    <select
+      class="mx-1 py-1 rounded-md text-center bg-white"
+      v-model="end">
       <option selected>終堂</option>
       <option v-for="cla in classes" :value="cla">{{ cla }}</option>
     </select>

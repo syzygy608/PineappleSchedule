@@ -20,9 +20,9 @@
               v-for="item in department_data"
               class="w-full bg-white/70 px-3 py-1 hover:bg-orange-300 hover:text-white"
               @click="
-                (departmentInput = item),
-                  (departmentflag = false),
-                  clickDepartment()
+                ((departmentInput = item),
+                (departmentflag = false),
+                clickDepartment())
               ">
               {{ item }}
             </li>

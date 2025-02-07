@@ -23,7 +23,7 @@
         class="w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white"
         :key="`${item.id}-${item.teacher}-${item.class_time}`"
         :class="{ conflict: item.conflict }"
-        @click="push_to_table(2, item), cleanInputArea()">
+        @click="(push_to_table(2, item), cleanInputArea())">
         [{{ item.id }}] {{ item.class_name }} {{ item.teacher }}
         {{ item.class_time }} {{ item.class_room }}
       </li>
