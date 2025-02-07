@@ -5,7 +5,7 @@
       以課程名稱進行搜尋
     </div>
     <input
-      class="w-11/12 mx-auto py-1 text-center course_search"
+      class="w-11/12 mx-auto py-1 text-center bg-white course_search"
       type="search"
       placeholder="使用課程名稱進行課程搜尋"
       v-model="searchInput" />

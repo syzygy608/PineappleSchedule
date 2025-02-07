@@ -6,26 +6,26 @@
   <div class="flex flex-row mx-auto w-full">
     <div class="mx-3 py-1 font-semibold min-w-[4rem]">課程資訊</div>
     <input
-      class="mx-2 w-full md:w-5/12 py-1 rounded-md text-center"
+      class="mx-2 w-full md:w-5/12 py-1 rounded-md bg-white text-center"
       type="text"
       placeholder="課程名稱"
       v-model="className" />
     <input
-      class="mx-2 w-full md:w-3/12 py-1 rounded-md text-center"
+      class="mx-2 w-full md:w-3/12 py-1 rounded-md bg-white text-center"
       type="text"
       placeholder="課程教室"
       v-model="classRoom" />
     <select
-      class="mx-1 py-1 rounded-md text-center"
+      class="mx-1 py-1 rounded-md text-center bg-white"
       v-model="weekDay">
       <option selected>星期</option>
       <option v-for="day in week" :value="day">{{ day }}</option>
     </select>
-    <select class="mx-1 py-1 rounded-md text-center" v-model="start">
+    <select class="mx-1 py-1 rounded-md text-center bg-white" v-model="start">
       <option selected>始堂</option>
       <option v-for="cla in classes" :value="cla">{{ cla }}</option>
     </select>
-    <select class="mx-1 py-1 rounded-md text-center" v-model="end">
+    <select class="mx-1 py-1 rounded-md text-center bg-white" v-model="end">
       <option selected>終堂</option>
       <option v-for="cla in classes" :value="cla">{{ cla }}</option>
     </select>

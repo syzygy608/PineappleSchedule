@@ -4,23 +4,24 @@
   "version": "1.0.6",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=8080 && npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify",
+    "dev": "vite --port=8080",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "hotfix": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify --watch",
     "format": "prettier --ignore-path .gitignore --write \"src/**/*.{js,vue,ts}\""
   },
   "pre-commit": [
     "format"
   ],
   "dependencies": {
+    "@achrinza/node-ipc": "^10.1.11",
     "@ant-design/icons": "^5.2.5",
     "@ant-design/icons-vue": "^6.1.0",
     "@chenfengyuan/vue-carousel": "^2.0.0",
     "@coleqiu/vue-drag-select": "^2.0.5",
+    "@tailwindcss/vite": "^4.0.4",
     "@types/jquery": "^3.5.16",
     "@types/lodash": "^4.14.197",
-    "@vue/cli": "^5.0.8",
+    "@vue/cli": "^4.2.2",
     "animate.css": "^4.1.1",
     "ant-design-vue": "^4.0.0",
     "argon2": "^0.31.0",
@@ -31,7 +32,7 @@
     "jquery": "^3.7.0",
     "prettier": "^3.2.4",
     "splitpanes": "^3.1.5",
-    "update": "^0.4.2",
+    "update": "^0.7.4",
     "uuid": "^9.0.0",
     "vue": "^3.3.4",
     "vue-accessible-color-picker": "^4.1.4",
@@ -47,13 +48,11 @@
     "@types/node": "^20.4.8",
     "@types/uuid": "^9.0.3",
     "@vitejs/plugin-vue": "^4.1.0",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.24",
-    "pre-commit": "^1.2.2",
-    "tailwindcss": "^3.3.2",
+    "pre-commit": "^1.0.10",
+    "tailwindcss": "^4.0.4",
     "typescript": "^5.0.2",
     "unplugin-vue-components": "^0.25.1",
-    "vite": "^4.3.9",
+    "vite": "^5.4.14",
     "vue-tsc": "^1.4.2"
   }
 }

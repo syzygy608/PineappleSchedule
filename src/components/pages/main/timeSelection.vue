@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed z-30 top-0 left-0 h-screen w-screen flex items-center backdrop-blur-sm"
+    class="fixed z-30 top-0 left-0 h-screen w-screen flex items-center backdrop-blur-xs"
     v-show="status"
     :style="{ width: widthnum }">
     <div

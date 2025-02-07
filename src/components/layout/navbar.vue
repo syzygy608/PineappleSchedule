@@ -8,7 +8,7 @@ const router = useRouter();
     class="z-10 h-[4rem] bg-orange-200 px-3 py-3 flex md:flex-row flex-row-reverse items-center place-content-between select-none">
     <router-link to="/">
       <div
-        class="font-bold text-2xl bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">
+        class="font-bold text-2xl bg-linear-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">
         中正課表
       </div>
     </router-link>
@@ -28,7 +28,7 @@ const router = useRouter();
       <!-- navbar collapse icon -->
       <button
         type="button"
-        class="py-2 px-2 rounded text-black"
+        class="py-2 px-2 rounded-sm text-black"
         v-on:click="collapse">
         <svg
           xmlns="http://www.w3.org/2000/svg"

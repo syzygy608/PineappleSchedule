@@ -6,7 +6,7 @@
       <div class="my-2">
         <div class="flex flex-row py-1 w-40">
           <select
-            class="mx-1 py-1 rounded-md text-center"
+            class="mx-1 py-1 rounded-md text-center bg-white"
             v-model="searchSem"
             v-if="searchType != '自定義新增課程'">
             <option disabled>選擇課表學期</option>
@@ -15,7 +15,7 @@
             </option>
           </select>
           <select
-            class="mx-1 py-1 rounded-md text-center"
+            class="mx-1 py-1 rounded-md text-center bg-white"
             v-model="searchType">
             <option selected>以課程名稱搜尋</option>
             <option>以系所年級搜尋</option>

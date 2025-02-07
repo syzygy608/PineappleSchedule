@@ -1,6 +1,6 @@
 <template>
   <div
-    class="z-40 top-0 left-0 w-screen h-screen fixed flex items-center backdrop-blur-sm"
+    class="z-40 top-0 left-0 w-screen h-screen fixed flex items-center backdrop-blur-xs"
     v-show="showModal">
     <div
       id="modal-container"
@@ -30,13 +30,13 @@
         <div class="text-center">
           <button
             id="close-modal"
-            class="bg-red-300 px-3 py-1 rounded hover:bg-red-400"
+            class="bg-red-300 px-3 py-1 rounded-sm hover:bg-red-400"
             @click="closeModal">
             取消
           </button>
           <button
             id="add-tab"
-            class="bg-green-300 px-3 py-1 rounded hover:bg-green-400 ml-2"
+            class="bg-green-300 px-3 py-1 rounded-sm hover:bg-green-400 ml-2"
             @click="SubmitModal">
             確認
           </button>

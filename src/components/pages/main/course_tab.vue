@@ -24,7 +24,7 @@
           tabIsEditing[index] = false;
         "
         @keyup.enter="$event.target.blur()"
-        class="bg-transparent !shadow-none w-[8rem] max-w-[90%] text-center border border-transparent focus:outline-none focus:border-white focus:bg-white/60" />
+        class="bg-transparent shadow-none! w-[8rem] max-w-[90%] text-center border border-transparent focus:outline-hidden focus:border-white focus:bg-white/60" />
       <button
         @click.stop="removeTab(index)"
         v-if="tabs.length > 1 && activeIndex === index"

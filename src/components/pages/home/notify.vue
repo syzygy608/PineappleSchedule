@@ -1,10 +1,10 @@
 <template>
   <div
-    class="z-10 top-0 left-0 w-screen h-screen fixed flex items-center backdrop-blur-sm"
+    class="z-10 top-0 left-0 w-screen h-screen fixed flex items-center backdrop-blur-xs"
     v-show="showModal">
     <div
       id="modal-container"
-      class="fixed inset-0 flex justify-center h-full md:h-6/12 w-full md:w-7/12 mx-auto"
+      class="fixed inset-0 flex justify-center items-center h-[100dvh] w-11/12 md:w-7/12 mx-auto"
       v-show="showModal">
       <div class="bg-white p-8 rounded-3xl shadow-lg my-auto">
         <h2 class="text-xl font-semibold mb-4 text-center">提醒</h2>
@@ -13,12 +13,12 @@
         <div class="w-[30rem] min-h-[20rem]" v-if="modify">
           <textarea
             v-model="content"
-            class="w-full h-[20rem] border-2 border-gray-300 p-2 rounded"></textarea>
+            class="w-full h-[20rem] border-2 border-gray-300 p-2 rounded-sm"></textarea>
         </div>
         <div class="text-center">
           <button
             id="close-modal"
-            class="bg-orange-300 px-3 py-1 rounded hover:bg-orange-400"
+            class="bg-orange-300 px-3 py-1 rounded-sm hover:bg-orange-400"
             @click="closeModal">
             Close
           </button>

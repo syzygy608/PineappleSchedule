@@ -8,12 +8,12 @@
       <div class="w-full flex justify-between">
         <div class="mx-12 w-4/12">
           <input
-            class="w-full py-1 text-center"
+            class="w-full py-1 text-center bg-white"
             type="search"
             placeholder="系所"
             v-model="departmentInput" />
           <ul
-            class="mx-auto result-show overflow-y-auto overflow-x-hidden z-10"
+            class="mx-auto bg-white result-show overflow-y-auto overflow-x-hidden z-10"
             ref="department_search_list"
             v-show="show_department">
             <li
@@ -31,7 +31,7 @@
         <div class="mx-12 w-4/12 inline-grid grid-cols-2">
           <div class="text-center leading-8">年級 / 向度</div>
           <select
-            class="w-full h-8 text-center"
+            class="w-full h-8 text-center bg-white"
             v-model="gradeSelection">
             <option
               v-for="(option, index) in gradeList"

@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import Vue3DraggableResizable from "vue3-draggable-resizable";
 import router from "./router";
-import "./css/tailwind.css";
+import "./css/style.css";
 import * as Icons from "@ant-design/icons-vue";
 import "vue3-draggable-resizable/dist/Vue3DraggableResizable.css";
 import VueCarousel from "@chenfengyuan/vue-carousel";

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="z-30 top-0 left-0 w-screen h-screen fixed flex items-center backdrop-blur-sm">
+    class="z-30 top-0 left-0 w-screen h-screen fixed flex items-center backdrop-blur-xs">
     <div
       class="h-6/12 mx-auto bg-white px-3 py-2 rounded-lg drop-shadow-xl">
       <ColorPicker

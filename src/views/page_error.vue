@@ -8,7 +8,7 @@ import ErrorBox from "@components/common/error_box.vue";
   <div id="main">
     <Navbar />
     <div
-      style="height: calc(100vh - 8rem)"
+      style="height: calc(100dvh - 8rem)"
       class="flex items-center justify-center">
       <ErrorBox error="Something Went Wrong!!"></ErrorBox>
     </div>
